@@ -1,0 +1,22 @@
+{
+    "fuels": {
+
+    },
+    "coolants": {
+        "water": 100,
+        "redstone": 6400,
+        "quartz": 6000,
+        "gold": 9600,
+        "glowstone": 8000,
+        "lapis": 5600,
+        "diamond": 14200,
+        "helium": 13200,
+        "ender": 10800,
+        "cryotheum": 12800,
+        "iron": 4800,
+        "emerald": 7200,
+        "copper": 5200,
+        "tin": 6000,
+        "magnesium": 7200
+    }
+}
