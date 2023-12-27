@@ -3,8 +3,8 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 const REACTOR_HEIGHT = 3;
-const SIZE = 16;
-const TRANSPARENCY = 0;
+const SIZE = 4;
+const TRANSPARENCY = 6;
 
 let sideLength;
 let blocks;
@@ -51,6 +51,7 @@ function makeRing(y, size){
  * @returns an array indicating the placement of blocks
  */
 function buildReactor(size){
+    if(size < 1 || size > 48) size = 1;
     sideLength = 9 + 2*(size-1);
     blocks = new Uint8Array(REACTOR_HEIGHT * sideLength * sideLength);
 
@@ -69,20 +70,46 @@ function buildReactor(size){
     return blocks;
 }
 
+/**
+ * Sets the block at (x, y, z) to blockId
+ * Accounts for the cooling bonus of symmetrical coolers
+ * @param {*} x 
+ * @param {*} y 
+ * @param {*} z 
+ * @param {*} blockId  
+ * @returns 
+ */
 function setBlock(x, y, z, blockId){
-    if(y == 1) return;
     const index = computeBlockIndex(x, y, z);
-    if(index != -1); reactorBlocks[index] = blockId;
+    if(y == 1 || index == -1) return;
+    reactorBlocks[index] = blockId;
+
+    // Set symmetrical block
+    const symmetricalBlockIndex = computeBlockIndex(-x, (y-2)*-1, -z);
+    const symmetricalBlockExists = reactorBlocks[symmetricalBlockIndex] > 0;
+    if(blockId > 0){ // Placing a cooler
+        if(symmetricalBlockExists){ // Symmetrical block is a cooler : give both blocks a cooling bonus
+            reactorBlocks[symmetricalBlockIndex]++;
+            reactorBlocks[index]++;
+        }
+    } else { // Removing a cooler 
+        if(symmetricalBlockExists) reactorBlocks[symmetricalBlockIndex]--; // Symmetrical block is a cooler : remove cooling bonus
+    }
 }
 
 const tileSize = 16;
-const tileTextureWidth = 224;
+const tileTextureWidth = 688;
 const tileTextureHeight = 64;
 const loader = new THREE.TextureLoader();
 const texture = loader.load("assets/atlas.png");
 texture.magFilter = THREE.NearestFilter;
 texture.minFilter = THREE.NearestFilter;
 
+/**
+ * Resizes the renderer to match the canvas size
+ * @param {*} renderer 
+ * @returns 
+ */
 function resizeRendererToDisplaySize(renderer) {
     const canvas = renderer.domElement;
     const pixelRatio = window.devicePixelRatio;
@@ -206,7 +233,10 @@ const reactorFrameMaterial = new THREE.MeshLambertMaterial( {
     side: THREE.DoubleSide
 });
 
-
+/**
+ * Updates the geometry of the reactor frame
+ * @param {*} size 
+ */
 function updateReactorFrameGeometry(size){
     const positions = [];
     const normals = [];
@@ -267,6 +297,9 @@ const reactorFrameMesh = new THREE.Mesh(reactorFrameGeometry, reactorFrameMateri
 
 scene.add( reactorFrameMesh );
 
+/**
+ * Attemps to render a frame
+ */
 function requestRenderIfNotRequested() {
     if (!renderRequested) {
         renderRequested = true;
@@ -275,6 +308,9 @@ function requestRenderIfNotRequested() {
 }
 
 let renderRequested = false;
+/**
+ * Renders a frame
+ */
 function render() {
     renderRequested = false;
    
@@ -292,30 +328,49 @@ const mouse = {
     y: 0,
 };
    
+/**
+ * Records the starting position of the mouse
+ * @param {*} event 
+ */
 function recordStartPosition(event) {
     mouse.x = event.clientX;
     mouse.y = event.clientY;
     mouse.moveX = 0;
     mouse.moveY = 0;
 }
+
+/**
+ * Records the movement of the mouse
+ * @param {*} event 
+ */
 function recordMovement(event) {
     mouse.moveX += Math.abs(mouse.x - event.clientX);
     mouse.moveY += Math.abs(mouse.y - event.clientY);
 }
-function placeVoxelIfNoMovement(event) {
+
+/**
+ * Places or removes a block at cursor position
+ * @param {*} event 
+ */
+function placeBlockIfNoMovement(event) {
     if (mouse.moveX < 5 && mouse.moveY < 5) {
         toggleCooler(event);
     }
     window.removeEventListener("pointermove", recordMovement);
-    window.removeEventListener("pointerup", placeVoxelIfNoMovement);
+    window.removeEventListener("pointerup", placeBlockIfNoMovement);
 }
 canvas.addEventListener("pointerdown", (event) => {
     event.preventDefault();
     recordStartPosition(event);
     window.addEventListener("pointermove", recordMovement);
-    window.addEventListener("pointerup", placeVoxelIfNoMovement);
+    window.addEventListener("pointerup", placeBlockIfNoMovement);
 }, {passive: false});
 
+/**
+ * Returns the canvas relative position of the mouse
+ * @param {*} event 
+ * @returns 
+ */
 function getCanvasRelativePosition(event) {
     const rect = canvas.getBoundingClientRect();
     return {
@@ -324,6 +379,12 @@ function getCanvasRelativePosition(event) {
     };
 }
 
+/**
+ * Returns the intersection of a ray with the reactor frame
+ * @param {*} start 
+ * @param {*} end 
+ * @returns 
+ */
 function intersectRay(start, end) {
     let dx = end.x - start.x;
     let dy = end.y - start.y;
@@ -409,6 +470,11 @@ function intersectRay(start, end) {
     return null;
 }
 
+/**
+ * 
+ * @param {*} event 
+ * @returns 
+ */
 function toggleCooler(event){
     const pos = getCanvasRelativePosition(event);
     const x = (pos.x / canvas.width ) *  2 - 1;
@@ -423,7 +489,7 @@ function toggleCooler(event){
     if (intersection.block > 1) { // Block is not a connector
         let blockId;
         if(intersection.block < 14){ // Block is a magnet
-            blockId = 14;
+            blockId = 16;
         } else { // Block is a cooler
             blockId = 0;
         }
