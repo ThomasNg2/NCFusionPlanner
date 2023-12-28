@@ -105,7 +105,7 @@ for(const coolant of Object.entries(CONFIG.coolants)){
     elCoolerSelection.appendChild(elOption);
     const elLabel = document.createElement("label");
     elLabel.htmlFor = coolant[0];
-    elLabel.title = coolant[0];
+    elLabel.title = coolant[0].charAt(0).toUpperCase() + coolant[0].slice(1);
     elLabel.style.backgroundImage = `url('assets/${coolant[0]}.png')`;
     elCoolerSelection.appendChild(elLabel);
     elLabel.addEventListener("click", () => {

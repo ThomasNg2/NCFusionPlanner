@@ -53,6 +53,10 @@ input[type=radio] + label {
     display: inline-block;
 }
 
+input[type=radio] + label:hover {
+    scale: 1.1;
+}
+
 input[type=radio]:checked + label {
     scale: 1.2;
 }
