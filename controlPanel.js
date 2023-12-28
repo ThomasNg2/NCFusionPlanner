@@ -9,7 +9,7 @@ import { buildReactor, makeRing, reactorDetails, setCoolerType, computeCoolingBr
 function changeReactorSize(size){
     size = Number(size);
     elReactorSize.innerText = `Toroid size ${size}`;
-    elMagnetCost.innerText = `Magnet upkeep cost : TODO RF/t`;
+    elMagnetCost.innerText = `Magnet upkeep cost : ${(96 + 32*(size-1)) * CONFIG.electromagnetRFPerSecond/20} RF/t`;
     buildReactor(size, topRingGlass, bottomRingGlass, outerRingGlass, innerRingGlass);
     updateReactorFrameGeometry();
     changeFuelCombo();
