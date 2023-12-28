@@ -1,7 +1,11 @@
 import * as CONFIG from "./E2E-NC-config.json";
 import { requestRenderIfNotRequested, updateReactorFrameGeometry } from "./render.js";
-import { buildReactor, makeRing, reactorDetails, setCoolerType } from "./reactorManager.js";
+import { buildReactor, makeRing, reactorDetails, setCoolerType, computeCoolingBreakdown } from "./reactorManager.js";
 
+/**
+ * Changes the size of the reactor
+ * @param {*} size 
+ */
 function changeReactorSize(size){
     size = Number(size);
     elReactorSize.innerText = `Toroid size ${size}`;
@@ -9,9 +13,13 @@ function changeReactorSize(size){
     buildReactor(size, topRingGlass, bottomRingGlass, outerRingGlass, innerRingGlass);
     updateReactorFrameGeometry();
     changeFuelCombo();
+    updateCoolingBreakdown(computeCoolingBreakdown());
     setTimeout(() => requestRenderIfNotRequested(), 50);
 }
 
+/**
+ * Changes the fuel combination
+ */
 function changeFuelCombo(){
     const fuel = CONFIG.fuels[elFuelCombo.value];
     const reactorSize = Number(elSlider.value);
@@ -30,6 +38,28 @@ function changeFuelCombo(){
     const energyString = energyProduced >= 1000000 ? `${(energyProduced/1000000).toFixed(2)} MRF/t` : `${energyProduced/1000} KRF/t`;
     elEnergyOutput.innerText = `Energy produced ${energyString}`;
 }
+
+/**
+ * Updates the cooling breakdown
+ * @param {*} breakdown
+ */
+function updateCoolingBreakdown(breakdown){
+    const coolingPercentage = (breakdown.total / 5000 * 100).toFixed(2);
+    elTotalCooling.innerText = `${breakdown.total.toFixed(2)}/5000 K/t (${coolingPercentage}%)`;
+    if(coolingPercentage > 120 || coolingPercentage < 100) elTotalCooling.style.color = "red";
+    else elTotalCooling.style.color = "green";
+
+    while(elTypeContribution.firstChild) elTypeContribution.removeChild(elTypeContribution.lastChild);
+    if(breakdown.total == 0) return;
+    for(let type of Object.entries(breakdown.typeContribution)){
+        type[1] /= reactorDetails.reactorSize;
+        const typePercentage = (type[1] / breakdown.total * 100).toFixed(2);
+        const elType = document.createElement("li");
+        elType.innerText = `${type[0]} : ${type[1].toFixed(2)} K/t (${typePercentage}%)`;
+        elTypeContribution.appendChild(elType);
+    }
+}
+
 const elComboName = document.querySelector("#comboName");
 const elSlider = document.querySelector("#sizeSlider");
 elSlider.min = CONFIG.minSize;
@@ -113,6 +143,10 @@ for(const coolant of Object.entries(CONFIG.coolants)){
         elOption.checked = true;
     });
 }
+
+const elTotalCooling = document.querySelector("#totalCooling");
+const elTypeContribution = document.querySelector("#typeContribution");
+window.addEventListener("coolerChange", () => { updateCoolingBreakdown(computeCoolingBreakdown());});
 
 setCoolerType(elCoolerSelection.children[0].value);
 elCoolerSelection.children[0].checked = true;

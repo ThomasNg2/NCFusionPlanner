@@ -132,6 +132,7 @@ function updateReactorFrameGeometry(){
         "uv",
         new THREE.BufferAttribute(new Float32Array( uvs ), uvNumComponents));
     reactorFrameGeometry.setIndex(indices);
+    reactorFrameGeometry.computeBoundingSphere();
 }
 
 /**
@@ -366,7 +367,9 @@ camera.position.y = 6;
 
 const controls = new OrbitControls( camera, canvas );
 controls.enableDamping = true;
+controls.dampingFactor = 0.05;
 controls.target.set(0, 1, 0);
+controls.maxDistance = 300;
 controls.update();
 controls.addEventListener("change", requestRenderIfNotRequested);
 
@@ -395,7 +398,7 @@ const reactorFrameMaterial = new THREE.MeshLambertMaterial( {
     map: blockTextures,
     transparent: true,
     alphaTest: 0.1,
-    // side: THREE.DoubleSide
+    side: THREE.DoubleSide
 });
 
 const reactorFrameMesh = new THREE.Mesh(reactorFrameGeometry, reactorFrameMaterial);

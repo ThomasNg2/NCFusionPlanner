@@ -1,4 +1,4 @@
-import { minSize, maxSize } from "./E2E-NC-config.json";
+import { minSize, maxSize, coolants } from "./E2E-NC-config.json";
 
 const MAX_SIZE = maxSize;
 const MIN_SIZE = minSize;
@@ -18,10 +18,106 @@ const BOTTOM_LEFT_CORNER_GLASS_MAGNET = 10;
 const BOTTOM_RIGHT_CORNER_GLASS_MAGNET = 11;
 const VERTICAL_GLASS_MAGNET = 12;
 const HORIZONTAL_GLASS_MAGNET = 13;
+const WATER_COOLER = 14;
+const BOOSTED_WATER_COOLER = 15;
+const REDSTONE_COOLER = 16;
+const BOOSTED_REDSTONE_COOLER = 17;
+const QUARTZ_COOLER = 18;
+const BOOSTED_QUARTZ_COOLER = 19;
+const GOLD_COOLER = 20;
+const BOOSTED_GOLD_COOLER = 21;
+const GLOWSTONE_COOLER = 22;
+const BOOSTED_GLOWSTONE_COOLER = 23;
+const LAPIS_COOLER = 24;
+const BOOSTED_LAPIS_COOLER = 25;
+const DIAMOND_COOLER = 26;
+const BOOSTED_DIAMOND_COOLER = 27;
+const HELIUM_COOLER = 28;
+const BOOSTED_HELIUM_COOLER = 29;
+const ENDERIUM_COOLER = 30;
+const BOOSTED_ENDERIUM_COOLER = 31;
+const CRYOTHEUM_COOLER = 32;
+const BOOSTED_CRYOTHEUM_COOLER = 33;
+const IRON_COOLER = 34;
+const BOOSTED_IRON_COOLER = 35;
+const EMERALD_COOLER = 36;
+const BOOSTED_EMERALD_COOLER = 37;
+const COPPER_COOLER = 38;
+const BOOSTED_COPPER_COOLER = 39;
+const TIN_COOLER = 40;
+const BOOSTED_TIN_COOLER = 41;
+const MAGNESIUM_COOLER = 42;
+const BOOSTED_MAGNESIUM_COOLER = 43;
+
+const coolerMap = {};
+coolerMap[WATER_COOLER] = coolants.water/4;
+coolerMap[BOOSTED_WATER_COOLER] = coolants.water;
+coolerMap[REDSTONE_COOLER] = coolants.redstone/4;
+coolerMap[BOOSTED_REDSTONE_COOLER] = coolants.redstone;
+coolerMap[QUARTZ_COOLER] = coolants.quartz/4;
+coolerMap[BOOSTED_QUARTZ_COOLER] = coolants.quartz;
+coolerMap[GOLD_COOLER] = coolants.gold/4;
+coolerMap[BOOSTED_GOLD_COOLER] = coolants.gold;
+coolerMap[GLOWSTONE_COOLER] = coolants.glowstone/4;
+coolerMap[BOOSTED_GLOWSTONE_COOLER] = coolants.glowstone;
+coolerMap[LAPIS_COOLER] = coolants.lapis/4;
+coolerMap[BOOSTED_LAPIS_COOLER] = coolants.lapis;
+coolerMap[DIAMOND_COOLER] = coolants.diamond/4;
+coolerMap[BOOSTED_DIAMOND_COOLER] = coolants.diamond;
+coolerMap[HELIUM_COOLER] = coolants.helium/4;
+coolerMap[BOOSTED_HELIUM_COOLER] = coolants.helium;
+coolerMap[ENDERIUM_COOLER] = coolants.enderium/4;
+coolerMap[BOOSTED_ENDERIUM_COOLER] = coolants.enderium;
+coolerMap[CRYOTHEUM_COOLER] = coolants.cryotheum/4;
+coolerMap[BOOSTED_CRYOTHEUM_COOLER] = coolants.cryotheum;
+coolerMap[IRON_COOLER] = coolants.iron/4;
+coolerMap[BOOSTED_IRON_COOLER] = coolants.iron;
+coolerMap[EMERALD_COOLER] = coolants.emerald/4;
+coolerMap[BOOSTED_EMERALD_COOLER] = coolants.emerald;
+coolerMap[COPPER_COOLER] = coolants.copper/4;
+coolerMap[BOOSTED_COPPER_COOLER] = coolants.copper;
+coolerMap[TIN_COOLER] = coolants.tin/4;
+coolerMap[BOOSTED_TIN_COOLER] = coolants.tin;
+coolerMap[MAGNESIUM_COOLER] = coolants.magnesium/4;
+coolerMap[BOOSTED_MAGNESIUM_COOLER] = coolants.magnesium;
+
+const coolerIdToName = {};
+coolerIdToName[WATER_COOLER] = "Water";
+coolerIdToName[BOOSTED_WATER_COOLER] = "Water";
+coolerIdToName[REDSTONE_COOLER] = "Redstone";
+coolerIdToName[BOOSTED_REDSTONE_COOLER] = "Redstone";
+coolerIdToName[QUARTZ_COOLER] = "Quartz";
+coolerIdToName[BOOSTED_QUARTZ_COOLER] = "Quartz";
+coolerIdToName[GOLD_COOLER] = "Gold";
+coolerIdToName[BOOSTED_GOLD_COOLER] = "Gold";
+coolerIdToName[GLOWSTONE_COOLER] = "Glowstone";
+coolerIdToName[BOOSTED_GLOWSTONE_COOLER] = "Glowstone";
+coolerIdToName[LAPIS_COOLER] = "Lapis";
+coolerIdToName[BOOSTED_LAPIS_COOLER] = "Lapis";
+coolerIdToName[DIAMOND_COOLER] = "Diamond";
+coolerIdToName[BOOSTED_DIAMOND_COOLER] = "Diamond";
+coolerIdToName[HELIUM_COOLER] = "Helium";
+coolerIdToName[BOOSTED_HELIUM_COOLER] = "Helium";
+coolerIdToName[ENDERIUM_COOLER] = "Enderium";
+coolerIdToName[BOOSTED_ENDERIUM_COOLER] = "Enderium";
+coolerIdToName[CRYOTHEUM_COOLER] = "Cryotheum";
+coolerIdToName[BOOSTED_CRYOTHEUM_COOLER] = "Cryotheum";
+coolerIdToName[IRON_COOLER] = "Iron";
+coolerIdToName[BOOSTED_IRON_COOLER] = "Iron";
+coolerIdToName[EMERALD_COOLER] = "Emerald";
+coolerIdToName[BOOSTED_EMERALD_COOLER] = "Emerald";
+coolerIdToName[COPPER_COOLER] = "Copper";
+coolerIdToName[BOOSTED_COPPER_COOLER] = "Copper";
+coolerIdToName[TIN_COOLER] = "Tin";
+coolerIdToName[BOOSTED_TIN_COOLER] = "Tin";
+coolerIdToName[MAGNESIUM_COOLER] = "Magnesium";
+coolerIdToName[BOOSTED_MAGNESIUM_COOLER] = "Magnesium";
+
 
 let reactorBlocks;
 const reactorDetails = {};
 let coolerId;
+let placedCoolers;
 
 /**
  * 
@@ -33,6 +129,7 @@ let coolerId;
 function computeBlockIndex(x, y, z){
     let bound = Math.floor(reactorDetails.reactorSideLength / 2);
     if(Math.abs(x) > bound || Math.abs(z) > bound) return -1;
+    if(y < 0 || y > HEIGHT-1) return -1;
     x += bound;
     z += bound;
     return y * reactorDetails.reactorSideLength* reactorDetails.reactorSideLength + z * reactorDetails.reactorSideLength + x;
@@ -98,6 +195,7 @@ function buildReactor(size, topRingIsGlass, bottomRingIsGlass, outerRingIsGlass,
         reactorBlocks[computeBlockIndex(-2-i, 1, 0)] = CONNECTOR;
         reactorBlocks[computeBlockIndex(2+i, 1, 0)] = CONNECTOR;
     }
+    placedCoolers = [];
 }
 
 /**
@@ -131,9 +229,28 @@ function setBlock(x, y, z, remvoval){
             reactorBlocks[symmetricalBlockIndex]++;
             reactorBlocks[index]++;
         }
+        placedCoolers.push(index);
     } else { // Removing a cooler 
         if(symmetricalBlockExists) reactorBlocks[symmetricalBlockIndex]--; // Symmetrical block is a cooler : remove cooling bonus
+        placedCoolers.splice(placedCoolers.indexOf(index), 1);
     }
+    window.dispatchEvent(new CustomEvent("coolerChange"));
 }
 
-export { AIR, CONNECTOR, TOP_LEFT_CORNER_GLASS_MAGNET, HORIZONTAL_GLASS_MAGNET, reactorBlocks, reactorDetails, computeBlockIndex, buildReactor, makeRing, setBlock, setCoolerType}
+/**
+ * 
+ * @returns the total cooling of the reactor, including the contribution of each cooler type
+ */
+function computeCoolingBreakdown(){
+    const breakdown = {total : 0, typeContribution : {}};
+    for(const placedCooler of placedCoolers){
+        const coolantName = coolerIdToName[reactorBlocks[placedCooler]];
+        if(!breakdown.typeContribution[coolantName]) breakdown.typeContribution[coolantName] = 0;
+        breakdown.typeContribution[coolantName] += coolerMap[reactorBlocks[placedCooler]];
+        breakdown.total += coolerMap[reactorBlocks[placedCooler]];
+    }
+    breakdown.total /= reactorDetails.reactorSize;
+    return breakdown;
+}
+
+export { AIR, CONNECTOR, TOP_LEFT_CORNER_GLASS_MAGNET, HORIZONTAL_GLASS_MAGNET, reactorBlocks, reactorDetails, computeBlockIndex, buildReactor, makeRing, setBlock, setCoolerType, computeCoolingBreakdown}
