@@ -1,22 +1,436 @@
 {
+    "minSize": 1,
+    "maxSize": 48,
+    "electromagnetRFPerSecond": 1000,
+    "fusionPowerMultiplier": 3.60,
+    "extraPowerMultiplierThatIsntMentionedAnywhereButTheInGameValuesDontMakeSenseOtherwise" : 100,
+    "fuelUseRateMultipler": 1.5,
     "fuels": {
-
+        "H-H":{
+            "fuel1": {
+                "name": "Hydrogen",
+                "amount": 2000
+            },
+            "fuel2": null,
+            "basePower": 640,
+            "fuelLifetime": 100,
+            "product": [{"name":"Deuterium", "amount": 1000}]
+        },
+        "H-D":{
+            "fuel1": {
+                "name": "Hydrogen",
+                "amount": 1000
+            },
+            "fuel2": {
+                "name": "Deuterium",
+                "amount": 1000
+            },
+            "basePower": 480,
+            "fuelLifetime": 208.3,
+            "product": [{"name":"Helium-3", "amount": 1000}]
+        },
+        "H-T":{
+            "fuel1": {
+                "name": "Hydrogen",
+                "amount": 1000
+            },
+            "fuel2": {
+                "name": "Tritium",
+                "amount": 1000
+            },
+            "basePower": 160,
+            "fuelLifetime": 312.5,
+            "product": [
+                {"name":"Helium-3", "amount": 1000},
+                {"name":"Neutron Fluid", "amount": 10}
+            ]
+        },
+        "H-He3":{
+            "fuel1": {
+                "name": "Hydrogen",
+                "amount": 1000
+            },
+            "fuel2": {
+                "name": "Helium-3",
+                "amount": 1000
+            },
+            "basePower": 160,
+            "fuelLifetime": 312.5,
+            "product": [{"name":"Helium", "amount": 1000}]
+        },
+        "H-Li6":{
+            "fuel1": {
+                "name": "Hydrogen",
+                "amount": 1000
+            },
+            "fuel2": {
+                "name": "Lithium-6",
+                "amount": 144
+            },
+            "basePower": 640,
+            "fuelLifetime": 1250,
+            "product": [
+                {"name": "Tritium", "amount": 1000},
+                {"name":"Helium", "amount": 1000}
+            ]
+        },
+        "H-Li7":{
+            "fuel1": {
+                "name": "Hydrogen",
+                "amount": 1000
+            },
+            "fuel2": {
+                "name": "Lithium-7",
+                "amount": 144
+            },
+            "basePower": 240,
+            "fuelLifetime": 1250,
+            "product": [{"name":"Helium", "amount": 2000}]
+        },
+        "H-B11":{
+            "fuel1": {
+                "name": "Hydrogen",
+                "amount": 1000
+            },
+            "fuel2": {
+                "name": "Boron-11",
+                "amount": 144
+            },
+            "basePower": 960,
+            "fuelLifetime": 625,
+            "product": [{"name":"Helium", "amount": 3000}]
+        },
+        "D-D":{
+            "fuel1": {
+                "name": "Deuterium",
+                "amount": 2000
+            },
+            "fuel2": null,
+            "basePower": 1120,
+            "fuelLifetime": 312.5,
+            "product": [
+                {"name": "Hydrogen", "amount": 500},
+                {"name":"Tritium", "amount": 500},
+                {"name":"Helium-3", "amount": 500},
+                {"name":"Neutron Fluid", "amount": 5}
+            ]
+        },
+        "D-T":{
+            "fuel1": {
+                "name": "Deuterium",
+                "amount": 1000
+            },
+            "fuel2": {
+                "name": "Tritium",
+                "amount": 1000
+            },
+            "basePower": 1600,
+            "fuelLifetime": 156.3,
+            "product": [
+                {"name":"Helium", "amount": 1000},
+                {"name":"Neutron Fluid", "amount": 10}
+            ]
+        },
+        "D-He3":{
+            "fuel1": {
+                "name": "Deuterium",
+                "amount": 1000
+            },
+            "fuel2": {
+                "name": "Helium-3",
+                "amount": 1000
+            },
+            "basePower": 1280,
+            "fuelLifetime": 500,
+            "product": [
+                {"name":"Hydrogen", "amount": 1000},
+                {"name":"Helium", "amount": 1000}
+            ]
+        },
+        "D-Li6":{
+            "fuel1": {
+                "name": "Deuterium",
+                "amount": 1000
+            },
+            "fuel2": {
+                "name": "Lithium-6",
+                "amount": 144
+            },
+            "basePower": 160,
+            "fuelLifetime": 1250,
+            "product": [{"name":"Helium", "amount": 2000}]
+        },
+        "D-Li7":{
+            "fuel1": {
+                "name": "Deuterium",
+                "amount": 1000
+            },
+            "fuel2": {
+                "name": "Lithium-7",
+                "amount": 144
+            },
+            "basePower": 1200,
+            "fuelLifetime": 500,
+            "product": [
+                {"name":"Helium", "amount": 2000},
+                {"name":"Neutron Fluid", "amount": 10}
+            ]
+        },
+        "D-B11":{
+            "fuel1": {
+                "name": "Deuterium",
+                "amount": 1000
+            },
+            "fuel2": {
+                "name": "Boron-11",
+                "amount": 144
+            },
+            "basePower": 80,
+            "fuelLifetime": 2500,
+            "product": [
+                {"name":"Helium", "amount": 3000},
+                {"name":"Neutron Fluid", "amount": 10}
+            ]
+        },
+        "T-T":{
+            "fuel1": {
+                "name": "Tritium",
+                "amount": 2000
+            },
+            "fuel2": null,
+            "basePower": 480,
+            "fuelLifetime": 833.3,
+            "product": [
+                {"name":"Helium", "amount": 1000},
+                {"name":"Neutron Fluid", "amount": 20}
+            ]
+        },
+        "T-He3":{
+            "fuel1": {
+                "name": "Tritium",
+                "amount": 1000
+            },
+            "fuel2": {
+                "name": "Helium-3",
+                "amount": 1000
+            },
+            "basePower": 320,
+            "fuelLifetime": 1250,
+            "product": [
+                {"name":"Hydrogen", "amount": 1000},
+                {"name":"Helium", "amount": 1000},
+                {"name":"Neutron Fluid", "amount": 10}
+            ]
+        },
+        "T-Li6":{
+            "fuel1": {
+                "name": "Tritium",
+                "amount": 1000
+            },
+            "fuel2": {
+                "name": "Lithium-6",
+                "amount": 144
+            },
+            "basePower": 80,
+            "fuelLifetime": 1250,
+            "product": [
+                {"name":"Helium", "amount": 2000},
+                {"name":"Neutron Fluid", "amount": 10}
+            ]
+        },
+        "T-Li7":{
+            "fuel1": {
+                "name": "Tritium",
+                "amount": 1000
+            },
+            "fuel2": {
+                "name": "Lithium-7",
+                "amount": 144
+            },
+            "basePower": 40,
+            "fuelLifetime": 6250,
+            "product": [
+                {"name":"Helium", "amount": 2000},
+                {"name":"Neutron Fluid", "amount": 20}
+            ]
+        },
+        "T-B11":{
+            "fuel1": {
+                "name": "Tritium",
+                "amount": 1000
+            },
+            "fuel2": {
+                "name": "Boron-11",
+                "amount": 144
+            },
+            "basePower": 80,
+            "fuelLifetime": 3125,
+            "product": [
+                {"name":"Helium", "amount": 3000},
+                {"name":"Neutron Fluid", "amount": 20}
+            ]
+        },
+        "He3-He3":{
+            "fuel1": {
+                "name": "Helium-3",
+                "amount": 2000
+            },
+            "fuel2": null,
+            "basePower": 960,
+            "fuelLifetime": 833.3,
+            "product": [
+                {"name":"Hydrogen", "amount": 2000},
+                {"name":"Helium", "amount": 1000}
+            ]
+        },
+        "He3-Li6":{
+            "fuel1": {
+                "name": "Helium-3",
+                "amount": 1000
+            },
+            "fuel2": {
+                "name": "Lithium-6",
+                "amount": 144
+            },
+            "basePower": 40,
+            "fuelLifetime": 2500,
+            "product": [
+                {"name":"Hydrogen", "amount": 1000},
+                {"name":"Helium", "amount": 2000}
+            ]
+        },
+        "He3-Li7":{
+            "fuel1": {
+                "name": "Helium-3",
+                "amount": 1000
+            },
+            "fuel2": {
+                "name": "Lithium-7",
+                "amount": 144
+            },
+            "basePower": 1120,
+            "fuelLifetime": 625,
+            "product": [
+                {"name":"Deuterium", "amount": 1000},
+                {"name":"Helium", "amount": 2000}
+            ]
+        },
+        "He3-B11":{
+            "fuel1": {
+                "name": "Helium-3",
+                "amount": 1000
+            },
+            "fuel2": {
+                "name": "Boron-11",
+                "amount": 144
+            },
+            "basePower": 240,
+            "fuelLifetime": 1250,
+            "product": [
+                {"name":"Deuterium", "amount": 1000},
+                {"name":"Helium", "amount": 3000}
+            ]
+        },
+        "Li6-Li6":{
+            "fuel1": {
+                "name": "Lithium-6",
+                "amount": 288
+            },
+            "fuel2": null,
+            "basePower": 80,
+            "fuelLifetime": 2500,
+            "product": [{"name":"Helium", "amount": 3000}]
+        },
+        "Li6-Li7":{
+            "fuel1": {
+                "name": "Lithium-6",
+                "amount": 144
+            },
+            "fuel2": {
+                "name": "Lithium-7",
+                "amount": 144
+            },
+            "basePower": 40,
+            "fuelLifetime": 2500,
+            "product": [
+                {"name":"Helium", "amount": 3000},
+                {"name":"Neutron Fluid", "amount": 10}
+            ]
+        },
+        "Li6-B11":{
+            "fuel1": {
+                "name": "Lithium-6",
+                "amount": 144
+            },
+            "fuel2": {
+                "name": "Boron-11",
+                "amount": 144
+            },
+            "basePower": 40,
+            "fuelLifetime": 5000,
+            "product": [
+                {"name":"Helium", "amount": 4000},
+                {"name":"Neutron Fluid", "amount": 10}
+            ]
+        },
+        "Li7-Li7":{
+            "fuel1": {
+                "name": "Lithium-7",
+                "amount": 288
+            },
+            "fuel2": null,
+            "basePower": 40,
+            "fuelLifetime": 5000,
+            "product": [
+                {"name":"Helium", "amount": 3000},
+                {"name":"Neutron Fluid", "amount": 20}
+            ]
+        },
+        "Li7-B11":{
+            "fuel1": {
+                "name": "Lithium-7",
+                "amount": 144
+            },
+            "fuel2": {
+                "name": "Boron-11",
+                "amount": 144
+            },
+            "basePower": 40,
+            "fuelLifetime": 2500,
+            "product": [
+                {"name":"Helium", "amount": 4000},
+                {"name":"Neutron Fluid", "amount": 20}
+            ]
+        },
+        "B11-B11":{
+            "fuel1": {
+                "name": "Boron-11",
+                "amount": 288
+            },
+            "fuel2": null,
+            "basePower": 20,
+            "fuelLifetime": 5000,
+            "product": [
+                {"name":"Helium", "amount": 5000},
+                {"name":"Neutron Fluid", "amount": 20}
+            ]
+        }
     },
     "coolants": {
-        "water": 100,
-        "redstone": 6400,
-        "quartz": 6000,
-        "gold": 9600,
-        "glowstone": 8000,
-        "lapis": 5600,
-        "diamond": 14200,
-        "helium": 13200,
-        "ender": 10800,
-        "cryotheum": 12800,
-        "iron": 4800,
-        "emerald": 7200,
-        "copper": 5200,
-        "tin": 6000,
-        "magnesium": 7200
+        "water": 400,
+        "redstone": 25600,
+        "quartz": 24000,
+        "gold": 38400,
+        "glowstone": 32000,
+        "lapis": 22400,
+        "diamond": 56000,
+        "helium": 52800,
+        "ender": 43200,
+        "cryotheum": 51200,
+        "iron": 19200,
+        "emerald": 28800,
+        "copper": 20800,
+        "tin": 24000,
+        "magnesium": 28800
     }
 }
