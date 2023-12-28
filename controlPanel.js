@@ -1,6 +1,6 @@
 import * as CONFIG from "./E2E-NC-config.json";
 import { requestRenderIfNotRequested, updateReactorFrameGeometry } from "./render.js";
-import { buildReactor, makeRing, reactorDetails, setCoolerType, computeCoolingBreakdown } from "./reactorManager.js";
+import { buildReactor, makeRing, reactorDetails, setCoolerType, computeCoolingBreakdown, getCoolerAmount } from "./reactorManager.js";
 
 /**
  * Changes the size of the reactor
@@ -13,6 +13,7 @@ function changeReactorSize(size){
     buildReactor(size, topRingGlass, bottomRingGlass, outerRingGlass, innerRingGlass);
     updateReactorFrameGeometry();
     changeFuelCombo();
+    updateCostBreakdown();
     updateCoolingBreakdown(computeCoolingBreakdown());
     setTimeout(() => requestRenderIfNotRequested(), 50);
 }
@@ -60,6 +61,39 @@ function updateCoolingBreakdown(breakdown){
     }
 }
 
+/**
+ * Updates the cost breakdown
+ */
+function updateCostBreakdown(){
+    let solidMagnets = 0;
+    let transparentMagnets = 0;
+    if(topRingGlass) transparentMagnets += 4 * (5 + reactorDetails.reactorSize);
+    else solidMagnets += 4 * (5 + reactorDetails.reactorSize);
+    if(bottomRingGlass) transparentMagnets += 4 * (5 + reactorDetails.reactorSize);
+    else solidMagnets += 4 * (5 + reactorDetails.reactorSize);
+    if(innerRingGlass) transparentMagnets += 4 * (3 + reactorDetails.reactorSize);
+    else solidMagnets += 4 * (3 + reactorDetails.reactorSize);
+    if(outerRingGlass) transparentMagnets += 4 * (7 + reactorDetails.reactorSize);
+    else solidMagnets += 4 * (7 + reactorDetails.reactorSize);
+    while(elBlockList.children.length > 1) elBlockList.removeChild(elBlockList.lastChild);
+    if(solidMagnets > 0){
+        let elMagnetCount = document.createElement("li");
+        elMagnetCount.innerText = `x${solidMagnets} Fusion Electromagnets`;
+        elBlockList.appendChild(elMagnetCount);
+    }
+    if(transparentMagnets > 0){
+        let elMagnetCount = document.createElement("li");
+        elMagnetCount.innerText = `x${transparentMagnets} Transparent Fusion Electromagnets`;
+        elBlockList.appendChild(elMagnetCount);
+    }
+    let coolerCount = getCoolerAmount();
+    if(coolerCount > 0){
+        let elCoolerCount = document.createElement("li");
+        elCoolerCount.innerText = `x${coolerCount} Active Fluid Coolers`;
+        elBlockList.appendChild(elCoolerCount);
+    }
+}
+
 const elComboName = document.querySelector("#comboName");
 const elSlider = document.querySelector("#sizeSlider");
 elSlider.min = CONFIG.minSize;
@@ -97,6 +131,7 @@ elTopRingGlassToggle.addEventListener("click", () => {
     topRingGlass = !topRingGlass;
     elTopRingGlassToggle.innerText = `Top ring : ${topRingGlass ? "transparent" : "solid"}`;
     makeRing(2, reactorDetails.reactorSize + 2, topRingGlass);
+    updateCostBreakdown();
     updateReactorFrameGeometry();
     requestRenderIfNotRequested();
 });
@@ -104,6 +139,7 @@ elBottomRingGlassToggle.addEventListener("click", () => {
     bottomRingGlass = !bottomRingGlass;
     elBottomRingGlassToggle.innerText = `Bottom ring : ${bottomRingGlass ? "transparent" : "solid"}`;
     makeRing(0, reactorDetails.reactorSize + 2, bottomRingGlass);
+    updateCostBreakdown();
     updateReactorFrameGeometry();
     requestRenderIfNotRequested();
 });
@@ -111,6 +147,7 @@ elOuterRingGlassToggle.addEventListener("click", () => {
     outerRingGlass = !outerRingGlass;
     elOuterRingGlassToggle.innerText = `Outer ring : ${outerRingGlass ? "transparent" : "solid"}`;
     makeRing(1, reactorDetails.reactorSize + 3, outerRingGlass);
+    updateCostBreakdown();
     updateReactorFrameGeometry();
     requestRenderIfNotRequested();
 });
@@ -118,6 +155,7 @@ elInnerRingGlassToggle.addEventListener("click", () => {
     innerRingGlass = !innerRingGlass;
     elInnerRingGlassToggle.innerText = `Inner ring : ${innerRingGlass ? "transparent" : "solid"}`;
     makeRing(1, reactorDetails.reactorSize + 1, innerRingGlass);
+    updateCostBreakdown();
     updateReactorFrameGeometry();
     requestRenderIfNotRequested();
 });
@@ -146,7 +184,14 @@ for(const coolant of Object.entries(CONFIG.coolants)){
 
 const elTotalCooling = document.querySelector("#totalCooling");
 const elTypeContribution = document.querySelector("#typeContribution");
-window.addEventListener("coolerChange", () => { updateCoolingBreakdown(computeCoolingBreakdown());});
+window.addEventListener("coolerChange", () => { 
+    updateCoolingBreakdown(computeCoolingBreakdown());
+    updateCostBreakdown();
+});
+
+const elBlockList  = document.querySelector("#blockList");
+elBlockList.appendChild(document.createElement("li"));
+elBlockList.children[0].innerText = "x1 Fusion Core";
 
 setCoolerType(elCoolerSelection.children[0].value);
 elCoolerSelection.children[0].checked = true;

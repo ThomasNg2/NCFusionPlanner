@@ -34,8 +34,8 @@ const DIAMOND_COOLER = 26;
 const BOOSTED_DIAMOND_COOLER = 27;
 const HELIUM_COOLER = 28;
 const BOOSTED_HELIUM_COOLER = 29;
-const ENDERIUM_COOLER = 30;
-const BOOSTED_ENDERIUM_COOLER = 31;
+const ENDER_COOLER = 30;
+const BOOSTED_ENDER_COOLER = 31;
 const CRYOTHEUM_COOLER = 32;
 const BOOSTED_CRYOTHEUM_COOLER = 33;
 const IRON_COOLER = 34;
@@ -66,8 +66,8 @@ coolerMap[DIAMOND_COOLER] = coolants.diamond/4;
 coolerMap[BOOSTED_DIAMOND_COOLER] = coolants.diamond;
 coolerMap[HELIUM_COOLER] = coolants.helium/4;
 coolerMap[BOOSTED_HELIUM_COOLER] = coolants.helium;
-coolerMap[ENDERIUM_COOLER] = coolants.enderium/4;
-coolerMap[BOOSTED_ENDERIUM_COOLER] = coolants.enderium;
+coolerMap[ENDER_COOLER] = coolants.ender/4;
+coolerMap[BOOSTED_ENDER_COOLER] = coolants.ender;
 coolerMap[CRYOTHEUM_COOLER] = coolants.cryotheum/4;
 coolerMap[BOOSTED_CRYOTHEUM_COOLER] = coolants.cryotheum;
 coolerMap[IRON_COOLER] = coolants.iron/4;
@@ -98,8 +98,8 @@ coolerIdToName[DIAMOND_COOLER] = "Diamond";
 coolerIdToName[BOOSTED_DIAMOND_COOLER] = "Diamond";
 coolerIdToName[HELIUM_COOLER] = "Helium";
 coolerIdToName[BOOSTED_HELIUM_COOLER] = "Helium";
-coolerIdToName[ENDERIUM_COOLER] = "Enderium";
-coolerIdToName[BOOSTED_ENDERIUM_COOLER] = "Enderium";
+coolerIdToName[ENDER_COOLER] = "Ender";
+coolerIdToName[BOOSTED_ENDER_COOLER] = "Ender";
 coolerIdToName[CRYOTHEUM_COOLER] = "Cryotheum";
 coolerIdToName[BOOSTED_CRYOTHEUM_COOLER] = "Cryotheum";
 coolerIdToName[IRON_COOLER] = "Iron";
@@ -238,6 +238,13 @@ function setBlock(x, y, z, remvoval){
 }
 
 /**
+ *  @returns the amount of placed coolers
+ */
+function getCoolerAmount(){
+    return placedCoolers.length;
+}
+
+/**
  * 
  * @returns the total cooling of the reactor, including the contribution of each cooler type
  */
@@ -253,4 +260,4 @@ function computeCoolingBreakdown(){
     return breakdown;
 }
 
-export { AIR, CONNECTOR, TOP_LEFT_CORNER_GLASS_MAGNET, HORIZONTAL_GLASS_MAGNET, reactorBlocks, reactorDetails, computeBlockIndex, buildReactor, makeRing, setBlock, setCoolerType, computeCoolingBreakdown}
+export { AIR, CONNECTOR, TOP_LEFT_CORNER_GLASS_MAGNET, HORIZONTAL_GLASS_MAGNET, reactorBlocks, reactorDetails, computeBlockIndex, buildReactor, makeRing, setBlock, setCoolerType, computeCoolingBreakdown, getCoolerAmount}
