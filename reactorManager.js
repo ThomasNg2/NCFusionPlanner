@@ -19,9 +19,9 @@ const BOTTOM_RIGHT_CORNER_GLASS_MAGNET = 11;
 const VERTICAL_GLASS_MAGNET = 12;
 const HORIZONTAL_GLASS_MAGNET = 13;
 
-
 let reactorBlocks;
-const reactorDetails = {}
+const reactorDetails = {};
+let coolerId;
 
 /**
  * 
@@ -101,15 +101,24 @@ function buildReactor(size, topRingIsGlass, bottomRingIsGlass, outerRingIsGlass,
 }
 
 /**
- * Sets the block at (x, y, z) to blockId
+ * Sets the type of cooler to be placed
+ * @param {Number} coolerType 
+ */
+function setCoolerType(coolerType){
+    coolerId = Number(coolerType);
+}
+
+/**
+ * Sets a block in the reactor
  * Accounts for the cooling bonus of symmetrical coolers
- * @param {*} x 
- * @param {*} y 
- * @param {*} z 
- * @param {*} blockId Type of block 
+ * @param {Number} x 
+ * @param {Number} y 
+ * @param {Number} z 
+ * @param {Boolean} removal whether the block is being removed or not
  * @returns 
  */
-function setBlock(x, y, z, blockId){
+function setBlock(x, y, z, remvoval){
+    let blockId = remvoval ? AIR : coolerId;
     const index = computeBlockIndex(x, y, z);
     if(y == 1 || index == -1) return;
     reactorBlocks[index] = blockId;
@@ -127,4 +136,4 @@ function setBlock(x, y, z, blockId){
     }
 }
 
-export {reactorBlocks, reactorDetails, computeBlockIndex, buildReactor, makeRing, setBlock}
+export { AIR, CONNECTOR, TOP_LEFT_CORNER_GLASS_MAGNET, HORIZONTAL_GLASS_MAGNET, reactorBlocks, reactorDetails, computeBlockIndex, buildReactor, makeRing, setBlock, setCoolerType}

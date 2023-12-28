@@ -1,12 +1,12 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-
 import { reactorBlocks, reactorDetails, computeBlockIndex, setBlock } from "./reactorManager.js";
 
 let renderRequested = false;
 
 const AIR = 0;
+const CONNECTOR = 1;
 const TRANSPARENT_BLOCK_STARTING_RANGE = 8;
 const TRANSPARENT_BLOCK_ENDING_RANGE = 13;
 
@@ -286,17 +286,15 @@ function toggleCooler(event){
     end.set(x, y, 1).unproject(camera);
     const intersection = intersectRay(start, end);
     if(!intersection) return;
-    if (intersection.block > 1) { // Block is not a connector
-        let blockId;
-        if(intersection.block < 14){ // Block is a magnet
-            blockId = 16;
-        } else { // Block is a cooler
-            blockId = 0;
+    if (intersection.block > CONNECTOR) { 
+        let removal = true;
+        if(intersection.block <= TRANSPARENT_BLOCK_ENDING_RANGE){ // Block is a magnet
+            removal = false;
         }
         const pos = intersection.position.map((v, ndx) => {
-            return Math.floor(v + intersection.normal[ndx] * (blockId > 0 ? 0.5 : -0.5));
+            return Math.floor(v + intersection.normal[ndx] * (!removal ? 0.5 : -0.5));
         });
-        setBlock(...pos, blockId);
+        setBlock(...pos, removal);
         updateReactorFrameGeometry();
         requestRenderIfNotRequested();
     }

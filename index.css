@@ -38,3 +38,21 @@ h1, h2 {
     width: 100%;
     display: inline;
 }
+
+input[type=radio] {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+input[type=radio] + label {
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+}
+
+input[type=radio]:checked + label {
+    scale: 1.2;
+}
