@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-import { reactorBlocks, reactorDetails, computeBlockIndex, setBlock } from "./reactor.js";
+import { reactorBlocks, reactorDetails, computeBlockIndex, setBlock } from "./reactorManager.js";
 
 let renderRequested = false;
 
@@ -82,12 +82,12 @@ const blockFaces = [ // used to compute the geometry of each block
  * Updates the geometry of the reactor frame
  * @param {*} size 
  */
-function updateReactorFrameGeometry(size){
+function updateReactorFrameGeometry(){
     const positions = [];
     const normals = [];
     const uvs = [];
     const indices = [];
-    const HALF_LENGTH = Math.floor((9+2*(size-1))/2);
+    const HALF_LENGTH = Math.floor((9+2*(reactorDetails.reactorSize-1))/2);
     for(let y = 0;y < 3;++y){
         for(let z = -HALF_LENGTH;z <= HALF_LENGTH;++z){
             for(let x = -HALF_LENGTH;x <= HALF_LENGTH;++x){
@@ -98,7 +98,7 @@ function updateReactorFrameGeometry(size){
                     const blockIsTransparent = block >= TRANSPARENT_BLOCK_STARTING_RANGE && block <= TRANSPARENT_BLOCK_ENDING_RANGE;
                     for ( const { dir, corners, uvRow } of blockFaces ) {
                         const neighbor = reactorBlocks[computeBlockIndex(x + dir[0], y + dir[1], z + dir[2])];
-                        const neighborIsTransparent = neighbor > TRANSPARENT_BLOCK_STARTING_RANGE && neighbor < TRANSPARENT_BLOCK_ENDING_RANGE;
+                        const neighborIsTransparent = neighbor >= TRANSPARENT_BLOCK_STARTING_RANGE && neighbor <= TRANSPARENT_BLOCK_ENDING_RANGE;
                         if (neighbor == AIR || neighbor == undefined || (!blockIsTransparent && neighborIsTransparent)){
                             // Current face isn't obstructed by a neighbor, draw it
                             const ndx = positions.length / 3;
@@ -297,7 +297,7 @@ function toggleCooler(event){
             return Math.floor(v + intersection.normal[ndx] * (blockId > 0 ? 0.5 : -0.5));
         });
         setBlock(...pos, blockId);
-        updateReactorFrameGeometry(reactorDetails.reactorSize);
+        updateReactorFrameGeometry();
         requestRenderIfNotRequested();
     }
 }

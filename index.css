@@ -20,7 +20,7 @@ header, footer {
     height: inherit;
     width: 25%;
     position: absolute;
-    background-color: black;
+    background-color: rgb(39, 39, 39);
 }
 
 canvas {
@@ -28,4 +28,13 @@ canvas {
     width: 75%;
     display: block;
     float: right;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+#sidebar div {
+    width: 100%;
+    display: inline;
 }

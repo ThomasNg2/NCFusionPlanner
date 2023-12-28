@@ -1,5 +1,7 @@
-const MAX_SIZE = 48;
-const MIN_SIZE = 1;
+import { minSize, maxSize } from "./E2E-NC-config.json";
+
+const MAX_SIZE = maxSize;
+const MIN_SIZE = minSize;
 const HEIGHT = 3;
 
 const AIR = 0;
@@ -85,7 +87,6 @@ function buildReactor(size, topRingIsGlass, bottomRingIsGlass, outerRingIsGlass,
     else reactorDetails.reactorSize = size;
     reactorDetails.reactorSideLength = 9 + 2*(size-1);
     reactorBlocks = new Uint8Array(HEIGHT * reactorDetails.reactorSideLength * reactorDetails.reactorSideLength);
-
     makeRing(1, reactorDetails.reactorSize + 1, innerRingIsGlass); // Inner
     makeRing(1, reactorDetails.reactorSize + 3, outerRingIsGlass); // Outer
     makeRing(2, reactorDetails.reactorSize + 2, topRingIsGlass); // Top
@@ -97,7 +98,6 @@ function buildReactor(size, topRingIsGlass, bottomRingIsGlass, outerRingIsGlass,
         reactorBlocks[computeBlockIndex(-2-i, 1, 0)] = CONNECTOR;
         reactorBlocks[computeBlockIndex(2+i, 1, 0)] = CONNECTOR;
     }
-    return reactorBlocks;
 }
 
 /**
@@ -127,4 +127,4 @@ function setBlock(x, y, z, blockId){
     }
 }
 
-export {reactorBlocks, reactorDetails, computeBlockIndex, buildReactor, setBlock}
+export {reactorBlocks, reactorDetails, computeBlockIndex, buildReactor, makeRing, setBlock}

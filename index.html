@@ -5,15 +5,51 @@
 		<title>NC Fusion Planner</title>
         <link rel="stylesheet" href="index.css"/>
 	</head>
-    <script type="module" src="/reactor.js"></script>
+    <script type="module" src="/reactorManager.js"></script>
+    <script type="module" src="/reactorLogic.js"></script>
     <script type="module" src="/render.js"></script>
     <script type="module" src="/main.js"></script>
 	<body>
-        <header>NuclearCraft Fusion Reactor Designer</header>
+        <header>NuclearCraft Fusion Reactor Designer (1.12.2)</header>
         <div id="container">
-            <div id="sidebar"></div>
+            <div id="sidebar">
+                <h1 id="comboName"></h1>
+                <h2 id="reactorSize"></h2>
+                <div id="generalControls">
+                    <label for="sizeSlider">Size :</label>
+                    <input type="range" id="sizeSlider" name="sizeSlider"/>
+                    <label for="fuelCombo">Fuel combo :</label>
+                    <select id="fuelCombo" name="fuelCombo"></select>
+                </div>
+                <div id="comboStats">
+                    <div>
+                        Fuel input : <ul>
+                            <li id="fuel1"></li>
+                            <li id="fuel2"></li>
+                        </ul>
+                    </div>
+                    <div>
+                        Products : <ul id="products">
+                        </ul>
+                    </div>
+                    <div id="energyOutput"></div>
+                </div>
+                <div id="glassToggle">
+                    <button id="topRing">Top ring : solid</button>
+                    <button id="bottomRing">Bottom ring : solid</button>
+                    <button id="outerRing">Outer ring : solid</button>
+                    <button id="innerRing">Inner ring : solid</button>
+                </div>
+                <div id="coolerSelection">
+                </div>
+                <div id="reactorCooling"></div>
+                <div id="costBreakdown"></div>
+                <div id="womwomwwomwomwomwomwmwom"></div>
+                <div id="reactorExport"></div>
+            </div>
             <canvas id="threeJScanvas"></canvas>
         </div>
         <footer>e</footer>
 	</body>
+    <script type="module" src="/controlPanel.js"></script>
 </html>
