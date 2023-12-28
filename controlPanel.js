@@ -193,6 +193,51 @@ const elBlockList  = document.querySelector("#blockList");
 elBlockList.appendChild(document.createElement("li"));
 elBlockList.children[0].innerText = "x1 Fusion Core";
 
+let audioContext;
+let sourceNode1, sourceNode2;
+let audioBuffer;
+
+const elWomwowmwomwomwomwomwowm = document.querySelector("#womwowmwomwomwomwomwowm");
+
+elWomwowmwomwomwomwomwowm.addEventListener("click", () => {
+    if (!audioContext) {
+        audioContext = new AudioContext();
+        fetch('assets/fusion_run.ogg')
+            .then(response => response.arrayBuffer())
+            .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+            .then(buffer => {
+                audioBuffer = buffer;
+                startLoopingAudio();
+            });
+    } else if (audioContext.state === 'suspended') {
+        audioContext.resume();
+    } else if (audioContext.state === 'running') {
+        audioContext.suspend();
+    }
+});
+
+function startLoopingAudio() {
+    sourceNode1 = createSourceNode();
+    sourceNode2 = createSourceNode();
+
+    sourceNode1.start();
+    setTimeout(() => sourceNode2.start(), audioBuffer.duration * 1000 / 2);
+}
+
+function createSourceNode() {
+    const sourceNode = audioContext.createBufferSource();
+    sourceNode.buffer = audioBuffer;
+    sourceNode.loop = true;
+
+    const gainNode = audioContext.createGain();
+    gainNode.gain.value = 0.5;
+
+    sourceNode.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    return sourceNode;
+}
+
 setCoolerType(elCoolerSelection.children[0].value);
 elCoolerSelection.children[0].checked = true;
 elFuelCombo.children[0].selected = true;

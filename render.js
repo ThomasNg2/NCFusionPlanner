@@ -384,13 +384,10 @@ const renderer = new THREE.WebGLRenderer({antialias: true, canvas, alpha: true})
 
 const gltfLoader = new GLTFLoader();
 const fusionCoreURL = "assets/NC Fusion Core.glb";
-let fusionCoreCore;
 gltfLoader.load(fusionCoreURL, (gltf) => {
     const fusionCore = gltf.scene;
     fusionCore.position.x = fusionCore.position.z = 0.5;
     scene.add(fusionCore);
-    fusionCoreCore = fusionCore.children[1];
-    console.log(fusionCoreCore);
 });
 
 let reactorFrameGeometry = new THREE.BufferGeometry();
