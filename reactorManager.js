@@ -132,7 +132,7 @@ function computeBlockIndex(x, y, z){
     if(y < 0 || y > HEIGHT-1) return -1;
     x += bound;
     z += bound;
-    return y * reactorDetails.reactorSideLength* reactorDetails.reactorSideLength + z * reactorDetails.reactorSideLength + x;
+    return (y * reactorDetails.reactorSideLength + z) * reactorDetails.reactorSideLength + x;
 }
 
 /**
