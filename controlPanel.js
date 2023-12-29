@@ -1,6 +1,6 @@
 import * as CONFIG from "./E2E-NC-config.json";
 import { requestRenderIfNotRequested, updateReactorFrameGeometry } from "./render.js";
-import { buildReactor, makeRing, reactorDetails, setCoolerType, computeCoolingBreakdown, getCoolerAmount } from "./reactorManager.js";
+import { buildReactor, makeRing, reactorDetails, setCoolerType, computeCoolingBreakdown, getCoolerAmount, toSchematic} from "./reactorManager.js";
 
 /**
  * Changes the size of the reactor
@@ -92,6 +92,28 @@ function updateCostBreakdown(){
         elCoolerCount.innerText = `x${coolerCount} Active Fluid Coolers`;
         elBlockList.appendChild(elCoolerCount);
     }
+}
+
+function startLoopingAudio() {
+    sourceNode1 = createSourceNode();
+    sourceNode2 = createSourceNode();
+
+    sourceNode1.start();
+    setTimeout(() => sourceNode2.start(), audioBuffer.duration * 1000 / 2);
+}
+
+function createSourceNode() {
+    const sourceNode = audioContext.createBufferSource();
+    sourceNode.buffer = audioBuffer;
+    sourceNode.loop = true;
+
+    const gainNode = audioContext.createGain();
+    gainNode.gain.value = 0.5;
+
+    sourceNode.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    return sourceNode;
 }
 
 const elComboName = document.querySelector("#comboName");
@@ -216,27 +238,10 @@ elWomwowmwomwomwomwomwowm.addEventListener("click", () => {
     }
 });
 
-function startLoopingAudio() {
-    sourceNode1 = createSourceNode();
-    sourceNode2 = createSourceNode();
-
-    sourceNode1.start();
-    setTimeout(() => sourceNode2.start(), audioBuffer.duration * 1000 / 2);
-}
-
-function createSourceNode() {
-    const sourceNode = audioContext.createBufferSource();
-    sourceNode.buffer = audioBuffer;
-    sourceNode.loop = true;
-
-    const gainNode = audioContext.createGain();
-    gainNode.gain.value = 0.5;
-
-    sourceNode.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-
-    return sourceNode;
-}
+const elSchematicExport = document.querySelector("#schematic");
+elSchematicExport.addEventListener("click", () => {
+    toSchematic(elComboName.innerText);
+});
 
 setCoolerType(elCoolerSelection.children[0].value);
 elCoolerSelection.children[0].checked = true;

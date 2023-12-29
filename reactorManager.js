@@ -48,6 +48,13 @@ const TIN_COOLER = 40;
 const BOOSTED_TIN_COOLER = 41;
 const MAGNESIUM_COOLER = 42;
 const BOOSTED_MAGNESIUM_COOLER = 43;
+const FUSION_CORE = 222;
+
+const NC_ACTIVE_COOLER = 1098;
+const NC_FUSION_CONNECTOR = 1079;
+const NC_FUSION_CORE = 1076;
+const NC_FUSION_ELECTROMAGNET = 1100;
+const NC_FUSION_TRANSPARENT_ELECTROMAGNET = 1102;
 
 const coolerMap = {};
 coolerMap[WATER_COOLER] = coolants.water/4;
@@ -260,4 +267,110 @@ function computeCoolingBreakdown(){
     return breakdown;
 }
 
-export { AIR, CONNECTOR, TOP_LEFT_CORNER_GLASS_MAGNET, HORIZONTAL_GLASS_MAGNET, reactorBlocks, reactorDetails, computeBlockIndex, buildReactor, makeRing, setBlock, setCoolerType, computeCoolingBreakdown, getCoolerAmount}
+/**
+ * 
+ * @returns the schematic of the reactor
+ */
+function toSchematic(fileName){
+    const blockIdToMinecraftId = {};
+    blockIdToMinecraftId[AIR] = 0;
+    blockIdToMinecraftId[CONNECTOR] = NC_FUSION_CONNECTOR;
+    blockIdToMinecraftId[TOP_LEFT_CORNER_MAGNET] = NC_FUSION_ELECTROMAGNET;
+    blockIdToMinecraftId[TOP_RIGHT_CORNER_MAGNET] = NC_FUSION_ELECTROMAGNET;
+    blockIdToMinecraftId[BOTTOM_LEFT_CORNER_MAGNET] = NC_FUSION_ELECTROMAGNET;
+    blockIdToMinecraftId[BOTTOM_RIGHT_CORNER_MAGNET] = NC_FUSION_ELECTROMAGNET;
+    blockIdToMinecraftId[VERTICAL_MAGNET] = NC_FUSION_ELECTROMAGNET;
+    blockIdToMinecraftId[HORIZONTAL_MAGNET] = NC_FUSION_ELECTROMAGNET;
+    blockIdToMinecraftId[TOP_LEFT_CORNER_GLASS_MAGNET] = NC_FUSION_TRANSPARENT_ELECTROMAGNET;
+    blockIdToMinecraftId[TOP_RIGHT_CORNER_GLASS_MAGNET] = NC_FUSION_TRANSPARENT_ELECTROMAGNET;
+    blockIdToMinecraftId[BOTTOM_LEFT_CORNER_GLASS_MAGNET] = NC_FUSION_TRANSPARENT_ELECTROMAGNET;
+    blockIdToMinecraftId[BOTTOM_RIGHT_CORNER_GLASS_MAGNET] = NC_FUSION_TRANSPARENT_ELECTROMAGNET;
+    blockIdToMinecraftId[VERTICAL_GLASS_MAGNET] = NC_FUSION_TRANSPARENT_ELECTROMAGNET;
+    blockIdToMinecraftId[HORIZONTAL_GLASS_MAGNET] = NC_FUSION_TRANSPARENT_ELECTROMAGNET;
+    blockIdToMinecraftId[WATER_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[BOOSTED_WATER_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[REDSTONE_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[BOOSTED_REDSTONE_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[QUARTZ_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[BOOSTED_QUARTZ_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[GOLD_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[BOOSTED_GOLD_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[GLOWSTONE_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[BOOSTED_GLOWSTONE_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[LAPIS_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[BOOSTED_LAPIS_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[DIAMOND_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[BOOSTED_DIAMOND_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[HELIUM_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[BOOSTED_HELIUM_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[ENDER_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[BOOSTED_ENDER_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[CRYOTHEUM_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[BOOSTED_CRYOTHEUM_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[IRON_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[BOOSTED_IRON_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[EMERALD_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[BOOSTED_EMERALD_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[COPPER_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[BOOSTED_COPPER_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[TIN_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[BOOSTED_TIN_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[MAGNESIUM_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[BOOSTED_MAGNESIUM_COOLER] = NC_ACTIVE_COOLER;
+    blockIdToMinecraftId[FUSION_CORE] = NC_FUSION_CORE;
+
+    const minecraftReactorBlocks = new Uint8Array(reactorBlocks.length);
+    const addBlocks = new Uint8Array(Math.ceil(reactorBlocks.length / 2));
+    reactorBlocks[computeBlockIndex(0, 0, 0)] = FUSION_CORE;
+    for(let i = 0; i < reactorBlocks.length; i += 2){
+        // Get the block IDs
+        const blockId1 = blockIdToMinecraftId[reactorBlocks[i]];
+        const blockId2 = i + 1 < reactorBlocks.length ? blockIdToMinecraftId[reactorBlocks[i + 1]] : 0;
+
+        // Store the lower 8 bits in the Blocks array
+        minecraftReactorBlocks[i] = blockId1 & 0xFF;
+        if (i + 1 < reactorBlocks.length) {
+            minecraftReactorBlocks[i + 1] = blockId2 & 0xFF;
+        }
+
+        // Combine the higher 8 bits into a single byte and store it in the AddBlocks array
+        addBlocks[i / 2] = ((blockId1 & 0xF00) >> 4) | ((blockId2 & 0xF00) >> 8);
+    }
+    reactorBlocks[computeBlockIndex(0, 0, 0)] = 0;
+    const data = {
+        AddBlocks: {type: "byteArray", value: addBlocks},
+        Blocks: {type: "byteArray", value: minecraftReactorBlocks},
+        Data: {type: "byteArray", value: new Uint8Array(reactorBlocks.length)},
+        Entities: {type: "list", value: {type: "end", value: []}},
+        Height: {type: "short", value: HEIGHT},
+        Icon: {type: "compound", value: {
+            Count: {type: "byte", value: 1},
+            Damage: {type: "short", value: 0},
+            id: {type: "string", value: "nuclearcraft:fusion_core"}
+        }},
+        Length: {type: "short", value: reactorDetails.reactorSideLength},
+        Materials: {type: "string", value: "Alpha"},
+        SchematicaMapping: {type: "compound", value: {
+            "minecraft:air": {type: "short", value: AIR},
+            "nuclearcraft:active_cooler": {type: "short", value: NC_ACTIVE_COOLER},
+            "nuclearcraft:fusion_connector": {type: "short", value: NC_FUSION_CONNECTOR},
+            "nuclearcraft:fusion_core": {type: "short", value: NC_FUSION_CORE},
+            "nuclearcraft:fusion_electromagnet_idle": {type: "short", value: NC_FUSION_ELECTROMAGNET},
+            "nuclearcraft:fusion_electromagnet_transparent_idle": {type: "short", value: NC_FUSION_TRANSPARENT_ELECTROMAGNET},
+        }},
+        TileEntities: {type: "list", value: {type: "end", value: []}},
+        Width: {type: "short", value: reactorDetails.reactorSideLength}
+    }
+    const fileData = { name: "Schematic", value: data};
+    // eslint-disable-next-line no-undef
+    const nbtFile = nbt.writeUncompressed(fileData);
+    const blob = new Blob([nbtFile], {type: "application/octet-stream"});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.download = `${fileName}.schematic`;
+    link.href = url;
+    link.click();
+    link.remove();
+}   
+
+export { AIR, CONNECTOR, TOP_LEFT_CORNER_GLASS_MAGNET, HORIZONTAL_GLASS_MAGNET, reactorBlocks, reactorDetails, computeBlockIndex, buildReactor, makeRing, setBlock, setCoolerType, computeCoolingBreakdown, getCoolerAmount, toSchematic}

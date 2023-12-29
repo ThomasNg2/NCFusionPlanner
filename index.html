@@ -5,6 +5,8 @@
 		<title>NC Fusion Planner</title>
         <link rel="stylesheet" href="index.css"/>
 	</head>
+    <script src="https://unpkg.com/pako/dist/pako.min.js"></script>
+    <script src="https://unpkg.com/nbt"></script>
     <script type="module" src="/reactorManager.js"></script>
     <script type="module" src="/reactorLogic.js"></script>
     <script type="module" src="/render.js"></script>
@@ -51,7 +53,10 @@
                 <div id="womwowmwomwomwomwomwowomwm">
                     <button id="womwowmwomwomwomwomwowm">womwowmwomwomwomwomwowm</button>
                 </div>
-                <div id="reactorExport"></div>
+                <div id="reactorExport">
+                    <button id="schematic">Schematic export</button>
+
+                </div>
             </div>
             <canvas id="threeJScanvas"></canvas>
         </div>
