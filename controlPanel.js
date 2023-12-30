@@ -76,6 +76,11 @@ function updateCostBreakdown(){
     if(outerRingGlass) transparentMagnets += 4 * (7 + reactorDetails.reactorSize);
     else solidMagnets += 4 * (7 + reactorDetails.reactorSize);
     while(elBlockList.children.length > 1) elBlockList.removeChild(elBlockList.lastChild);
+    if(reactorDetails.reactorSize > 1){
+        let elReactorConnectors = document.createElement("li");
+        elReactorConnectors.innerText = `x${4*(reactorDetails.reactorSize-1)} Fusion Connectors`;
+        elBlockList.appendChild(elReactorConnectors);
+    }
     if(solidMagnets > 0){
         let elMagnetCount = document.createElement("li");
         elMagnetCount.innerText = `x${solidMagnets} Fusion Electromagnets`;
@@ -89,7 +94,7 @@ function updateCostBreakdown(){
     let coolerCount = getCoolerAmount();
     if(coolerCount > 0){
         let elCoolerCount = document.createElement("li");
-        elCoolerCount.innerText = `x${coolerCount} Active Fluid Coolers`;
+        elCoolerCount.innerText = `x${coolerCount} Active Fluid Cooler${coolerCount != 1 ? "s" : ""}`;
         elBlockList.appendChild(elCoolerCount);
     }
 }
@@ -240,7 +245,7 @@ elWomwowmwomwomwomwomwowm.addEventListener("click", () => {
 
 const elSchematicExport = document.querySelector("#schematic");
 elSchematicExport.addEventListener("click", () => {
-    toSchematic(elComboName.innerText);
+    toSchematic(`size ${elSlider.value} ${elComboName.innerText} fusion reactor`);
 });
 
 setCoolerType(elCoolerSelection.children[0].value);
