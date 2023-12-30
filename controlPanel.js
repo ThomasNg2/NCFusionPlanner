@@ -377,3 +377,4 @@ elFuelCombo.children[0].selected = true;
 elSlider.value = 4;
 changeReactorSize(elSlider.value);
 changeFuelCombo();
+setTimeout(() => requestRenderIfNotRequested, 3000);
