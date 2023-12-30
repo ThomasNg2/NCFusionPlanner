@@ -70,14 +70,14 @@ function updateCoolingBreakdown(breakdown){
 function updateCostBreakdown(){
     let solidMagnets = 0;
     let transparentMagnets = 0;
-    if(topRingGlass) transparentMagnets += 4 * (5 + reactorDetails.reactorSize);
-    else solidMagnets += 4 * (5 + reactorDetails.reactorSize);
-    if(bottomRingGlass) transparentMagnets += 4 * (5 + reactorDetails.reactorSize);
-    else solidMagnets += 4 * (5 + reactorDetails.reactorSize);
-    if(innerRingGlass) transparentMagnets += 4 * (3 + reactorDetails.reactorSize);
-    else solidMagnets += 4 * (3 + reactorDetails.reactorSize);
-    if(outerRingGlass) transparentMagnets += 4 * (7 + reactorDetails.reactorSize);
-    else solidMagnets += 4 * (7 + reactorDetails.reactorSize);
+    if(topRingGlass) transparentMagnets += 4 * (4 + reactorDetails.reactorSize*2);
+    else solidMagnets += 4 * (4 + reactorDetails.reactorSize*2);
+    if(bottomRingGlass) transparentMagnets += 4 * (4 + reactorDetails.reactorSize*2);
+    else solidMagnets += 4 * (4 + reactorDetails.reactorSize*2);
+    if(innerRingGlass) transparentMagnets += 4 * (2 + reactorDetails.reactorSize*2);
+    else solidMagnets += 4 * (2 + reactorDetails.reactorSize*2);
+    if(outerRingGlass) transparentMagnets += 4 * (6 + reactorDetails.reactorSize*2);
+    else solidMagnets += 4 * (6 + reactorDetails.reactorSize*2);
     while(elBlockList.children.length > 1) elBlockList.removeChild(elBlockList.lastChild);
     if(reactorDetails.reactorSize > 1){
         let elFusionConnectors = document.createElement("li");
