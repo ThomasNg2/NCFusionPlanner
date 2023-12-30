@@ -11,56 +11,71 @@
     <script type="module" src="/reactorLogic.js"></script>
     <script type="module" src="/render.js"></script>
 	<body>
-        <header>NuclearCraft Fusion Reactor Designer (1.12.2)</header>
+        <header id="header">NuclearCraft Fusion Reactor Designer</header>
         <div id="container">
             <div id="sidebar">
-                <h1 id="comboName"></h1>
-                <h2 id="reactorSize"></h2>
-                <div id="generalControls">
-                    <label for="sizeSlider">Size :</label>
-                    <input type="range" id="sizeSlider" name="sizeSlider"/>
-                    <label for="fuelCombo">Fuel combo :</label>
+                <div id="reactorGeneral">
+                    Fuel combo : 
                     <select id="fuelCombo" name="fuelCombo"></select>
+                    <div id="sliderContainer">
+                        <input type="range" id="sizeSlider" name="sizeSlider"/>
+                        <div id="reactorSize"></div>
+                    </div>
                 </div>
                 <div id="comboStats">
-                    <div>
+                    <div class="red">
                         Fuel input : <ul>
                             <li id="fuel1"></li>
                             <li id="fuel2"></li>
                         </ul>
                     </div>
-                    <div id="magnetCost"></div>
-                    <div>
-                        Products : <ul id="products">
-                        </ul>
+                    <div class="red">Magnet upkeep cost :
+                        <p id="magnetCost"></p>
                     </div>
-                    <div id="energyOutput" title="Power at 100% efficiency"></div>
+                    <div class="green">
+                        Products : <ul id="products"></ul>
+                    </div>
+                    <div title="Power at 100% efficiency" class="green">Energy produced :
+                        <p id="energyOutput"></p>
+                    </div>
                 </div>
-                <div id="glassToggle">
-                    <button id="topRing">Top ring : solid</button>
-                    <button id="bottomRing">Bottom ring : solid</button>
-                    <button id="outerRing">Outer ring : solid</button>
-                    <button id="innerRing">Inner ring : solid</button>
+                <div id="glassToggleWrapper">
+                    Magnet style: 
+                    <div id="glassToggle">
+                        <button id="topRing">Top ring : solid</button>
+                        <button id="bottomRing">Bottom ring : solid</button>
+                        <button id="outerRing">Outer ring : solid</button>
+                        <button id="innerRing">Inner ring : solid</button>
+                    </div>
                 </div>
                 <div id="coolerSelection"></div>
                 <div id="reactorCooling">
-                    Total cooling : <span id="totalCooling"></span>
+                    Cooling : <span id="totalCooling"></span>
                     <ul id="typeContribution"></ul>
                 </div>
                 <div id="costBreakdown">
-                    Components breakdown : <ul id="blockList"></ul>
+                    Components breakdown : <ul id="blockList">
+                        <li>x1 Fusion Core <img src="assets/FusionCoreItem.png"></li>
+                    </ul>
                 </div>
                 <div id="womwowmwomwomwomwomwowomwm">
                     <button id="womwowmwomwomwomwomwowm">womwowmwomwomwomwomwowm</button>
                 </div>
                 <div id="reactorExport">
-                    <button id="schematic">Schematic export</button>
-
+                    <button id="schematic" title="Note: This tool will only place the coolers. Actually providing the coolers the right coolant is left as an exercise to the reader.">Schematic export<img src="assets/blueprint.png"></button>
                 </div>
             </div>
             <canvas id="threeJScanvas"></canvas>
+            <button id="resetCamera" class="canvasButton">reset the camera</button>
+            <button id="howTo" class="canvasButton">interacting with the view</button>
         </div>
-        <footer>e</footer>
+        <footer>
+            <a href="https://www.curseforge.com/minecraft/mc-mods/nuclearcraft-mod" title="NuclearCraft's CurseForge page">NuclearCraft<img src="assets/CFLogo.png"></a>
+            <a href="https://www.youtube.com/watch?v=B9ctB28I3qI" title="Fusion reactors explained">Fusion Reactors<img src="assets/YTLogo.png"></a>
+            <a href="https://threejs.org/" title="The JS library used for the 3D render">ThreeJS<img src="assets/3JSLogo.png"></a>
+            <a href="https://github.com/ThomasNg2/NCFusionPlanner" title="Sauce">Source code<img src="assets/GHLogo.png"></a>
+            <a href="https://discord.com/invite/xPPwaFx" title="Enigmatica Discord">Suggestions/Complaints/Questions : @dooglett<img src="assets/DCLogo.png"></a>
+        </footer>
 	</body>
     <script type="module" src="/controlPanel.js"></script>
 </html>

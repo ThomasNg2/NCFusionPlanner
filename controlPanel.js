@@ -9,7 +9,7 @@ import { buildReactor, makeRing, reactorDetails, setCoolerType, computeCoolingBr
 function changeReactorSize(size){
     size = Number(size);
     elReactorSize.innerText = `Toroid size ${size}`;
-    elMagnetCost.innerText = `Magnet upkeep cost : ${(96 + 32*(size-1)) * CONFIG.electromagnetRFPerSecond/20} RF/t`;
+    elMagnetCost.innerText = `${(96 + 32*(size-1)) * CONFIG.electromagnetRFPerSecond/20} RF/t`;
     buildReactor(size, topRingGlass, bottomRingGlass, outerRingGlass, innerRingGlass);
     updateReactorFrameGeometry();
     changeFuelCombo();
@@ -24,7 +24,7 @@ function changeReactorSize(size){
 function changeFuelCombo(){
     const fuel = CONFIG.fuels[elFuelCombo.value];
     const reactorSize = Number(elSlider.value);
-    elComboName.innerText = `${fuel.fuel1.name}-${fuel.fuel2 != null ? fuel.fuel2.name : fuel.fuel1.name}`;
+    fuelComboName = `${fuel.fuel1.name}-${fuel.fuel2 != null ? fuel.fuel2.name : fuel.fuel1.name}`;
     elFuel1.innerText = `${fuel.fuel1.name} : ${((fuel.fuel1.amount*reactorSize)/(fuel.fuelLifetime/CONFIG.fuelUseRateMultipler)).toFixed(2)} mB/t`;
     elFuel2.innerText = fuel.fuel2 != null ? `${fuel.fuel2.name} : ${((fuel.fuel2.amount*reactorSize)/(fuel.fuelLifetime/CONFIG.fuelUseRateMultipler)).toFixed(2)} mB/t` : "-";
 
@@ -37,7 +37,7 @@ function changeFuelCombo(){
 
     const energyProduced = fuel.basePower * reactorSize * CONFIG.fusionPowerMultiplier * CONFIG.extraPowerMultiplierThatIsntMentionedAnywhereButTheInGameValuesDontMakeSenseOtherwise;
     const energyString = energyProduced >= 1000000 ? `${(energyProduced/1000000).toFixed(2)} MRF/t` : `${energyProduced/1000} KRF/t`;
-    elEnergyOutput.innerText = `Energy produced ${energyString}`;
+    elEnergyOutput.innerText = energyString;
 }
 
 /**
@@ -47,8 +47,10 @@ function changeFuelCombo(){
 function updateCoolingBreakdown(breakdown){
     const coolingPercentage = (breakdown.total / 5000 * 100).toFixed(2);
     elTotalCooling.innerText = `${breakdown.total.toFixed(2)}/5000 K/t (${coolingPercentage}%)`;
-    if(coolingPercentage > 120 || coolingPercentage < 100) elTotalCooling.style.color = "red";
-    else elTotalCooling.style.color = "green";
+    elTotalCooling.classList.remove("red");
+    elTotalCooling.classList.remove("green");
+    if(coolingPercentage > 120 || coolingPercentage < 100) elTotalCooling.classList.add("red");
+    else elTotalCooling.classList.add("green");
 
     while(elTypeContribution.firstChild) elTypeContribution.removeChild(elTypeContribution.lastChild);
     if(breakdown.total == 0) return;
@@ -77,25 +79,37 @@ function updateCostBreakdown(){
     else solidMagnets += 4 * (7 + reactorDetails.reactorSize);
     while(elBlockList.children.length > 1) elBlockList.removeChild(elBlockList.lastChild);
     if(reactorDetails.reactorSize > 1){
-        let elReactorConnectors = document.createElement("li");
-        elReactorConnectors.innerText = `x${4*(reactorDetails.reactorSize-1)} Fusion Connectors`;
-        elBlockList.appendChild(elReactorConnectors);
+        let elFusionConnectors = document.createElement("li");
+        elFusionConnectors.innerText = `x${4*(reactorDetails.reactorSize-1)} Fusion Connectors`;
+        elBlockList.appendChild(elFusionConnectors);
+        let elFusionConnectorItemImg = document.createElement("img");
+        elFusionConnectorItemImg.src = "assets/FusionConnectorItem.png";
+        elFusionConnectors.appendChild(elFusionConnectorItemImg);
     }
     if(solidMagnets > 0){
         let elMagnetCount = document.createElement("li");
         elMagnetCount.innerText = `x${solidMagnets} Fusion Electromagnets`;
         elBlockList.appendChild(elMagnetCount);
+        let elMagnetItemImg = document.createElement("img");
+        elMagnetItemImg.src = "assets/MagnetItem.png";
+        elMagnetCount.appendChild(elMagnetItemImg);
     }
     if(transparentMagnets > 0){
         let elMagnetCount = document.createElement("li");
         elMagnetCount.innerText = `x${transparentMagnets} Transparent Fusion Electromagnets`;
         elBlockList.appendChild(elMagnetCount);
+        let elMagnetItemImg = document.createElement("img");
+        elMagnetItemImg.src = "assets/TransparentMagnetItem.png";
+        elMagnetCount.appendChild(elMagnetItemImg);
     }
     let coolerCount = getCoolerAmount();
     if(coolerCount > 0){
         let elCoolerCount = document.createElement("li");
         elCoolerCount.innerText = `x${coolerCount} Active Fluid Cooler${coolerCount != 1 ? "s" : ""}`;
         elBlockList.appendChild(elCoolerCount);
+        let elCoolerItemImg = document.createElement("img");
+        elCoolerItemImg.src = "assets/ActiveCoolerItem.png";
+        elCoolerCount.appendChild(elCoolerItemImg);
     }
 }
 
@@ -121,7 +135,6 @@ function createSourceNode() {
     return sourceNode;
 }
 
-const elComboName = document.querySelector("#comboName");
 const elSlider = document.querySelector("#sizeSlider");
 elSlider.min = CONFIG.minSize;
 elSlider.max = CONFIG.maxSize;
@@ -129,6 +142,7 @@ elSlider.addEventListener("input", () => {changeReactorSize(elSlider.value);});
 
 const elReactorSize = document.querySelector("#reactorSize");
 
+let fuelComboName;
 const elFuelCombo = document.querySelector("#fuelCombo");
 for(const fuel of Object.entries(CONFIG.fuels)){
     const elOption = document.createElement("option");
@@ -217,8 +231,7 @@ window.addEventListener("coolerChange", () => {
 });
 
 const elBlockList  = document.querySelector("#blockList");
-elBlockList.appendChild(document.createElement("li"));
-elBlockList.children[0].innerText = "x1 Fusion Core";
+
 
 let audioContext;
 let sourceNode1, sourceNode2;
@@ -236,16 +249,19 @@ elWomwowmwomwomwomwomwowm.addEventListener("click", () => {
                 audioBuffer = buffer;
                 startLoopingAudio();
             });
+        elWomwowmwomwomwomwomwowm.style.fontWeight = "bold";
     } else if (audioContext.state === 'suspended') {
         audioContext.resume();
+        elWomwowmwomwomwomwomwowm.style.fontWeight = "bold";
     } else if (audioContext.state === 'running') {
         audioContext.suspend();
+        elWomwowmwomwomwomwomwowm.style.fontWeight = "normal";
     }
 });
 
 const elSchematicExport = document.querySelector("#schematic");
 elSchematicExport.addEventListener("click", () => {
-    toSchematic(`size ${elSlider.value} ${elComboName.innerText} fusion reactor`);
+    toSchematic(`size ${elSlider.value} ${fuelComboName} fusion reactor`);
 });
 
 setCoolerType(elCoolerSelection.children[0].value);

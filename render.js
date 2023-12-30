@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { reactorBlocks, reactorDetails, computeBlockIndex, setBlock } from "./reactorManager.js";
+import { ceilPowerOfTwo } from "three/src/math/mathutils.js";
 
 let renderRequested = false;
 
@@ -302,6 +303,19 @@ function toggleCooler(event){
 }
 
 /**
+ * Resets the camera to its default position
+ */
+function resetCamera(){
+    camera.position.x = DEFAULT_CAMERA_POSITION;
+    camera.position.y = DEFAULT_CAMERA_POSITION;
+    camera.position.z = DEFAULT_CAMERA_POSITION;
+    controls.target.set(DEFAULT_CAMERA_TARGET.x, DEFAULT_CAMERA_TARGET.y, DEFAULT_CAMERA_TARGET.z);
+    controls.update();
+    requestRenderIfNotRequested();
+
+}
+
+/**
  * Resizes the renderer to match the canvas size
  * @param {*} renderer 
  * @returns 
@@ -356,22 +370,27 @@ const canvas = document.querySelector("#threeJScanvas");
 const scene = new THREE.Scene();
 scene.background = null;
 
+const DEFAULT_CAMERA_POSITION = 6;
+const DEFAULT_CAMERA_TARGET = {x: 0, y: 1, z: 0};
 const fov = 75;
 const aspect = 2;
 const near = 0.1;
 const far = 300;
 const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-camera.position.z = 6;
-camera.position.x = 6;
-camera.position.y = 6;
+camera.position.z = DEFAULT_CAMERA_POSITION;
+camera.position.x = DEFAULT_CAMERA_POSITION;
+camera.position.y = DEFAULT_CAMERA_POSITION;
 
 const controls = new OrbitControls( camera, canvas );
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
-controls.target.set(0, 1, 0);
+controls.target.set(DEFAULT_CAMERA_TARGET.x, DEFAULT_CAMERA_TARGET.y, DEFAULT_CAMERA_TARGET.z);
 controls.maxDistance = 300;
 controls.update();
 controls.addEventListener("change", requestRenderIfNotRequested);
+
+const elResetCameraButton = document.querySelector("#resetCamera");
+elResetCameraButton.addEventListener("click", resetCamera);
 
 const light1 = new THREE.DirectionalLight(0xFFFFFF, 1.5);
 const light2 = new THREE.DirectionalLight(0xFFFFFF, 1);

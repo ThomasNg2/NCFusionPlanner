@@ -1,15 +1,48 @@
+@font-face {
+    font-family: 'Minecraft';
+    src: url('assets/minecraft.ttf') format('truetype');
+}
+
 html, body {
     margin: 0;
     height: 100%;
- }
+}
 
 body {
     display: flex;
     flex-direction: column;
+    background-image: url('assets/BackgroundTile.png');
+    background-size: 480px 480px;
+    background-position: 100px 160px;
+    image-rendering: pixelated;
+    font-size: 12px;
+}
+
+body, select, button {
+    font-family: 'Minecraft', sans-serif;
+}
+
+select {
+    background: #181818;
+    border: none;
+    width: 100%;
+    font-size: 12px;
+    text-align: center;
+    display: block;
+    color: white;
+    margin-bottom: 24px;
 }
 
 header, footer {
     height: 5vh;
+    background-color: #2a3030;
+    color: white;
+    font-size: 24px;
+    text-align: center;
+}
+
+header {
+    line-height: 5vh;
 }
 
 #container {
@@ -17,10 +50,19 @@ header, footer {
 }
 
 #sidebar {
+    display: flex;
     height: inherit;
     width: 25%;
     position: absolute;
-    background-color: rgb(39, 39, 39);
+    background-color: #313737;
+    flex-direction: column;
+    justify-content: space-evenly;
+    box-sizing: border-box;
+    padding: 6px;
+}
+
+#reactorGeneral {
+    padding-left: 8px;
 }
 
 canvas {
@@ -34,9 +76,10 @@ h1, h2 {
     text-align: center;
 }
 
-#sidebar div {
+#sidebar > div {
     width: 100%;
-    display: inline;
+    box-sizing: border-box;
+    border: #444949 4px solid;
 }
 
 input[type=radio] {
@@ -59,4 +102,186 @@ input[type=radio] + label:hover {
 
 input[type=radio]:checked + label {
     scale: 1.2;
+    border: white 2px solid;
+}
+
+input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%; 
+    height: 100%; 
+    background: transparent; 
+    outline: none; 
+    opacity: 0.7; 
+    -webkit-transition: .2s; 
+    transition: opacity .2s;
+    margin: 0;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; 
+    appearance: none;
+    width: 10px; 
+    height: 20px;
+    background: #7c7c7c;
+    cursor: pointer; 
+}
+
+input[type=range]::-moz-range-thumb {
+    width: 10px;
+    height: 100%;
+    background: #7c7c7c; 
+}
+
+#sliderContainer {
+    position: relative;
+    width: 100%;
+    height: 20px;
+    margin-bottom: 24px;
+}
+
+#sizeSlider {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+#reactorSize {
+    width: 100%;
+    height: 100%;
+    line-height: 20px;
+    text-align: center;
+    background-color: #181818;
+    color: rgb(255, 255, 255);
+}
+
+#comboStats, #glassToggle {
+    box-sizing: border-box;
+    padding: 6px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    white-space: nowrap;
+}
+
+#coolerSelection {
+    padding-left: 14px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-gap: 8px;
+}
+
+#reactorCooling, #glassToggleWrapper {
+    padding-left: 8px;
+}
+
+#costBreakdown {
+    padding-left: 8px;
+    height: 25%;
+}
+
+#comboStats div {
+    width: 50%;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 6px;
+    margin-bottom: 0;
+    margin-top: 4px;
+}
+
+p {
+    margin-bottom: 0;
+    margin-top: 4px;
+}
+
+.red {
+    color: rgb(223, 28, 28);
+}
+
+.green {
+    color: lime;
+}
+
+#comboStats li, #comboStats p {
+    font-size: 10px;
+}
+
+#costBreakdown img {
+    width: 32px;
+    height: 32px;
+}
+
+#resetCamera {
+    top: 96px;
+}
+
+button {
+    background: transparent;
+    border: none;
+    width: 100%;
+}
+
+button:hover {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.canvasButton {
+    width: fit-content;
+    top: 64px;
+    right: 0;
+    position: absolute;
+    background: transparent;
+    border: none;
+    color: rgb(255, 255, 255);
+}
+
+.canvasButton:hover {
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#womwowmwomwomwomwomwowm {
+    height: 32px;
+}
+
+#reactorExport button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#reactorExport img {
+    width: 32px;
+    height: 32px;
+    margin-left: 8px;
+}
+
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+footer a {
+    height: 100%;
+    color: white;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 0.5px solid white;
+    margin: 0 8px;
+    text-decoration: none;
+}
+
+footer img {
+    height: 100%;
+    image-rendering: auto;
+    margin: 0 8px;
 }
