@@ -183,6 +183,32 @@ function hideExportDialog(){
     elDarkOverlay.style.zIndex = -5;
 }
 
+const elHeader = document.querySelector("#header");
+const packChoice = localStorage.getItem("packChoice") != null;
+if(!packChoice){
+    elHeader.innerText = "NuclearCraft Fusion Reactor Designer (1.12.2)";
+    const elReactorGeneral = document.querySelector("#reactorGeneral");
+    const elPackChoiceLabel = document.createElement("label");
+    const elPackChoiceSelect = document.createElement("select");
+    elPackChoiceLabel.innerText = "Modpack : ";
+    elPackChoiceLabel.for = "packChoice";
+    elPackChoiceSelect.id = "packChoice";
+    elPackChoiceSelect.name = "packChoice";
+    elPackChoiceSelect.innerHTML = '<option value="E2E">E2E</option>';
+    elReactorGeneral.appendChild(elPackChoiceLabel);
+    elReactorGeneral.appendChild(elPackChoiceSelect);
+    elPackChoiceSelect.addEventListener("click", () => {
+        localStorage.setItem("packChoice", true);
+        elReactorGeneral.removeChild(elPackChoiceSelect);
+        elReactorGeneral.removeChild(elPackChoiceLabel);
+        const elSike = document.createElement("p");
+        elSike.innerText = "sike, other packs aren't real";
+        elSike.classList.add("red");
+        elReactorGeneral.appendChild(elSike);
+        elHeader.innerText = "NuclearCraft Fusion Reactor Designer (E2E)";
+    });
+} else elHeader.innerText = "NuclearCraft Fusion Reactor Designer (E2E)";
+
 const elSlider = document.querySelector("#sizeSlider");
 elSlider.min = CONFIG.minSize;
 elSlider.max = CONFIG.maxSize;
