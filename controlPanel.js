@@ -49,7 +49,8 @@ function updateCoolingBreakdown(breakdown){
     elTotalCooling.innerText = `${breakdown.total.toFixed(2)}/5000 K/t (${coolingPercentage}%)`;
     elTotalCooling.classList.remove("red");
     elTotalCooling.classList.remove("green");
-    if(coolingPercentage > 120 || coolingPercentage < 100) elTotalCooling.classList.add("red");
+    willMeltdown = coolingPercentage < 100;
+    if(coolingPercentage > 120 || willMeltdown) elTotalCooling.classList.add("red");
     else elTotalCooling.classList.add("green");
 
     while(elTypeContribution.firstChild) elTypeContribution.removeChild(elTypeContribution.lastChild);
@@ -113,6 +114,9 @@ function updateCostBreakdown(){
     }
 }
 
+/**
+ * Starts the audio loop
+ */
 function startLoopingAudio() {
     sourceNode1 = createSourceNode();
     sourceNode2 = createSourceNode();
@@ -121,6 +125,10 @@ function startLoopingAudio() {
     setTimeout(() => sourceNode2.start(), audioBuffer.duration * 1000 / 2);
 }
 
+/**
+ * Creates an audio source node
+ * @returns 
+ */
 function createSourceNode() {
     const sourceNode = audioContext.createBufferSource();
     sourceNode.buffer = audioBuffer;
@@ -133,6 +141,46 @@ function createSourceNode() {
     gainNode.connect(audioContext.destination);
 
     return sourceNode;
+}
+
+/**
+ * Shows the view instructions
+ */
+function showInstructions(){
+    elInstructionsDialog.style.display = "block";
+    elInstructionsDialog.style.zIndex = 5;
+    elDarkOverlay.style.display = "block";
+    elDarkOverlay.style.zIndex = 4;
+}
+
+/**
+ * Hides the view instructions
+ */
+function hideInstructions(){
+    elInstructionsDialog.style.display = "none";
+    elInstructionsDialog.style.zIndex = -4;
+    elDarkOverlay.style.display = "none";
+    elDarkOverlay.style.zIndex = -5;
+}
+
+/**
+ * Shows the export dialog
+ */
+function showExportDialog(){
+    elExportDialog.style.display = "flex";
+    elExportDialog.style.zIndex = 5;
+    elDarkOverlay.style.display = "block";
+    elDarkOverlay.style.zIndex = 4;
+}
+
+/**
+ * Hides the export dialog
+ */
+function hideExportDialog(){
+    elExportDialog.style.display = "none";
+    elExportDialog.style.zIndex = -4;
+    elDarkOverlay.style.display = "none";
+    elDarkOverlay.style.zIndex = -5;
 }
 
 const elSlider = document.querySelector("#sizeSlider");
@@ -172,6 +220,8 @@ elTopRingGlassToggle.addEventListener("click", () => {
     topRingGlass = !topRingGlass;
     elTopRingGlassToggle.innerText = `Top ring : ${topRingGlass ? "transparent" : "solid"}`;
     makeRing(2, reactorDetails.reactorSize + 2, topRingGlass);
+    let audio = new Audio(topRingGlass ? "assets/glass.ogg" : "assets/place.ogg");
+    audio.play();
     updateCostBreakdown();
     updateReactorFrameGeometry();
     requestRenderIfNotRequested();
@@ -180,6 +230,8 @@ elBottomRingGlassToggle.addEventListener("click", () => {
     bottomRingGlass = !bottomRingGlass;
     elBottomRingGlassToggle.innerText = `Bottom ring : ${bottomRingGlass ? "transparent" : "solid"}`;
     makeRing(0, reactorDetails.reactorSize + 2, bottomRingGlass);
+    let audio = new Audio(bottomRingGlass ? "assets/glass.ogg" : "assets/place.ogg");
+    audio.play();
     updateCostBreakdown();
     updateReactorFrameGeometry();
     requestRenderIfNotRequested();
@@ -188,6 +240,8 @@ elOuterRingGlassToggle.addEventListener("click", () => {
     outerRingGlass = !outerRingGlass;
     elOuterRingGlassToggle.innerText = `Outer ring : ${outerRingGlass ? "transparent" : "solid"}`;
     makeRing(1, reactorDetails.reactorSize + 3, outerRingGlass);
+    let audio = new Audio(outerRingGlass ? "assets/glass.ogg" : "assets/place.ogg");
+    audio.play();
     updateCostBreakdown();
     updateReactorFrameGeometry();
     requestRenderIfNotRequested();
@@ -196,6 +250,8 @@ elInnerRingGlassToggle.addEventListener("click", () => {
     innerRingGlass = !innerRingGlass;
     elInnerRingGlassToggle.innerText = `Inner ring : ${innerRingGlass ? "transparent" : "solid"}`;
     makeRing(1, reactorDetails.reactorSize + 1, innerRingGlass);
+    let audio = new Audio(innerRingGlass ? "assets/glass.ogg" : "assets/place.ogg");
+    audio.play();
     updateCostBreakdown();
     updateReactorFrameGeometry();
     requestRenderIfNotRequested();
@@ -259,10 +315,35 @@ elWomwowmwomwomwomwomwowm.addEventListener("click", () => {
     }
 });
 
+let willMeltdown = true;
+let professional = localStorage.getItem("professional") != null;
+const elInstructionsDialog = document.querySelector("#instructionsDialog");
+const elExportDialog = document.querySelector("#exportDialog");
+const elDarkOverlay = document.querySelector("#darkOverlay");
+
 const elSchematicExport = document.querySelector("#schematic");
 elSchematicExport.addEventListener("click", () => {
-    toSchematic(`size ${elSlider.value} ${fuelComboName} fusion reactor`);
+    if(professional || !willMeltdown) toSchematic(`size ${elSlider.value} ${fuelComboName} fusion reactor`);
+    else showExportDialog();
 });
+
+const elInstructionsShow = document.querySelector("#howTo");
+elInstructionsShow.addEventListener("click", showInstructions);
+
+const elInstructionsHide = document.querySelector("#instructionsHide");
+elInstructionsHide.addEventListener("click", hideInstructions);
+
+const elExportDialogYes = document.querySelector("#exportYes");
+elExportDialogYes.addEventListener("click", () => {
+    hideExportDialog();
+    toSchematic(`size ${elSlider.value} ${fuelComboName} fusion reactor`);
+    localStorage.setItem("professional", true);
+    professional = true;
+});
+
+const elExportDialogNo = document.querySelector("#exportNo");
+elExportDialogNo.addEventListener("click", hideExportDialog);
+
 
 setCoolerType(elCoolerSelection.children[0].value);
 elCoolerSelection.children[0].checked = true;

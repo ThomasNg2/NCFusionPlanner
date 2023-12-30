@@ -120,11 +120,21 @@ coolerIdToName[BOOSTED_TIN_COOLER] = "Tin";
 coolerIdToName[MAGNESIUM_COOLER] = "Magnesium";
 coolerIdToName[BOOSTED_MAGNESIUM_COOLER] = "Magnesium";
 
-
 let reactorBlocks;
 const reactorDetails = {};
 let coolerId;
 let placedCoolers;
+
+
+/**
+ * Plays a sound
+ * @param {String} src 
+ */
+function playSound(src) {
+    let sound = new Audio(src);
+    sound.play();
+}
+
 
 /**
  * 
@@ -232,13 +242,19 @@ function setBlock(x, y, z, remvoval){
     const symmetricalBlockIndex = computeBlockIndex(-x, (y-2)*-1, -z);
     const symmetricalBlockExists = reactorBlocks[symmetricalBlockIndex] != AIR;
     if(blockId != AIR){ // Placing a cooler
+        playSound("assets/place.ogg");
         if(symmetricalBlockExists){ // Symmetrical block is a cooler : give both blocks a cooling bonus
             reactorBlocks[symmetricalBlockIndex]++;
             reactorBlocks[index]++;
+            playSound("assets/coolerBonus.ogg");
         }
         placedCoolers.push(index);
     } else { // Removing a cooler 
-        if(symmetricalBlockExists) reactorBlocks[symmetricalBlockIndex]--; // Symmetrical block is a cooler : remove cooling bonus
+        playSound("assets/break.ogg");
+        if(symmetricalBlockExists) {
+            reactorBlocks[symmetricalBlockIndex]--; // Symmetrical block is a cooler : remove cooling bonus
+            playSound("assets/coolerBonusLoss.ogg");
+        }
         placedCoolers.splice(placedCoolers.indexOf(index), 1);
     }
     window.dispatchEvent(new CustomEvent("coolerChange"));

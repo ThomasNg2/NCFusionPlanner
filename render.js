@@ -2,7 +2,6 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { reactorBlocks, reactorDetails, computeBlockIndex, setBlock } from "./reactorManager.js";
-import { ceilPowerOfTwo } from "three/src/math/mathutils.js";
 
 let renderRequested = false;
 
