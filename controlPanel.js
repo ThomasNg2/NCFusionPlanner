@@ -147,7 +147,7 @@ function createSourceNode() {
  * Shows the view instructions
  */
 function showInstructions(){
-    elInstructionsDialog.style.display = "block";
+    elInstructionsDialog.style.display = "flex";
     elInstructionsDialog.style.zIndex = 5;
     elDarkOverlay.style.display = "block";
     elDarkOverlay.style.zIndex = 4;
@@ -188,19 +188,14 @@ const packChoice = localStorage.getItem("packChoice") != null;
 if(!packChoice){
     elHeader.innerText = "NuclearCraft Fusion Reactor Designer (1.12.2)";
     const elReactorGeneral = document.querySelector("#reactorGeneral");
-    const elPackChoiceLabel = document.createElement("label");
     const elPackChoiceSelect = document.createElement("select");
-    elPackChoiceLabel.innerText = "Modpack : ";
-    elPackChoiceLabel.for = "packChoice";
     elPackChoiceSelect.id = "packChoice";
     elPackChoiceSelect.name = "packChoice";
-    elPackChoiceSelect.innerHTML = '<option value="E2E">E2E</option>';
-    elReactorGeneral.appendChild(elPackChoiceLabel);
+    elPackChoiceSelect.innerHTML = '<option value="E2E">Modpack: E2E</option>';
     elReactorGeneral.appendChild(elPackChoiceSelect);
     elPackChoiceSelect.addEventListener("click", () => {
         localStorage.setItem("packChoice", true);
         elReactorGeneral.removeChild(elPackChoiceSelect);
-        elReactorGeneral.removeChild(elPackChoiceLabel);
         const elSike = document.createElement("p");
         elSike.innerText = "sike, other packs aren't real";
         elSike.classList.add("red");
@@ -221,7 +216,7 @@ const elFuelCombo = document.querySelector("#fuelCombo");
 for(const fuel of Object.entries(CONFIG.fuels)){
     const elOption = document.createElement("option");
     elOption.value = fuel[0];
-    elOption.innerText = `${fuel[1].fuel1.name}-${fuel[1].fuel2 != null ? fuel[1].fuel2.name : fuel[1].fuel1.name}`;
+    elOption.innerText = `Fuel combo: ${fuel[1].fuel1.name}-${fuel[1].fuel2 != null ? fuel[1].fuel2.name : fuel[1].fuel1.name}`;
     elFuelCombo.appendChild(elOption);
 }
 elFuelCombo.addEventListener("change", changeFuelCombo);

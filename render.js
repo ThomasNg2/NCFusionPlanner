@@ -406,6 +406,7 @@ gltfLoader.load(fusionCoreURL, (gltf) => {
     const fusionCore = gltf.scene;
     fusionCore.position.x = fusionCore.position.z = 0.5;
     scene.add(fusionCore);
+    render();
 });
 
 let reactorFrameGeometry = new THREE.BufferGeometry();

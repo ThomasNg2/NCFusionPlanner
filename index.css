@@ -16,6 +16,7 @@ body {
     background-position: 100px 160px;
     image-rendering: pixelated;
     font-size: 12px;
+    color: white;
 }
 
 body, select, button {
@@ -26,6 +27,7 @@ select {
     background: #181818;
     border: none;
     width: 100%;
+    height: 20px;
     font-size: 12px;
     text-align: center;
     display: block;
@@ -223,6 +225,7 @@ button {
     background: transparent;
     border: none;
     width: 100%;
+    color: white;
 }
 
 button:hover {
@@ -237,11 +240,10 @@ button:hover {
     position: absolute;
     background: transparent;
     border: none;
-    color: rgb(255, 255, 255);
+    color: white;
 }
 
 .canvasButton:hover {
-    color: rgb(0, 0, 0);
     cursor: pointer;
     font-weight: bold;
 }
@@ -300,6 +302,12 @@ footer img {
     font-size: medium;
 }
 
+#instructionsDialog {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 #instructionsDialog * {
     margin-bottom: 12px;
     font-size: medium;
@@ -319,11 +327,15 @@ footer img {
     justify-items: center;
 }
 
-#exportDialog button{
+#exportDialog button, #instructionsDialog button {
     margin: 16px 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;
     width: fit-content;
     font-size: medium;
+    border: white 2px solid;
 }
+
 
 #darkOverlay {
     display: block;
