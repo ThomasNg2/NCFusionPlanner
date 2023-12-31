@@ -1,5 +1,5 @@
 import * as CONFIG from "./E2E-NC-config.json";
-import { requestRenderIfNotRequested, updateReactorFrameGeometry } from "./render.js";
+import { requestRenderIfNotRequested, updateReactorFrameGeometry, render } from "./render.js";
 import { buildReactor, makeRing, reactorDetails, setCoolerType, computeCoolingBreakdown, getCoolerAmount, toSchematic} from "./reactorManager.js";
 
 /**
@@ -372,4 +372,4 @@ elFuelCombo.children[0].selected = true;
 elSlider.value = 4;
 changeReactorSize(elSlider.value);
 changeFuelCombo();
-setTimeout(() => requestRenderIfNotRequested, 3000);
+setTimeout(() => render, 3000);

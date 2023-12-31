@@ -429,4 +429,4 @@ canvas.addEventListener("pointerdown", (event) => {
     window.addEventListener("pointerup", placeBlockIfNoMovement);
 }, {passive: false});
 
-export { updateReactorFrameGeometry, requestRenderIfNotRequested };
+export { updateReactorFrameGeometry, requestRenderIfNotRequested, render };
