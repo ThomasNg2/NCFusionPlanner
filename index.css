@@ -160,19 +160,19 @@ input[type=range]::-moz-range-thumb {
 
 #comboStats, #glassToggle {
     box-sizing: border-box;
-    padding: 6px;
+    padding: 4px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    white-space: nowrap;
 }
 
 #coolerSelection {
-    padding-left: 14px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    grid-gap: 8px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#coolerSelection * {
+    margin: 4px 6px;
 }
 
 #reactorCooling, #glassToggleWrapper {
@@ -185,7 +185,7 @@ input[type=range]::-moz-range-thumb {
 }
 
 #comboStats div {
-    width: 50%;
+    width: 100%;
 }
 
 #sidebar ul {
@@ -201,11 +201,11 @@ p {
 }
 
 .red {
-    color: rgb(223, 28, 28);
+    color: rgb(216, 64, 64);
 }
 
 .green {
-    color: lime;
+    color: rgb(69, 255, 69);
 }
 
 #comboStats li, #comboStats p {
