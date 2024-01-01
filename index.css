@@ -291,7 +291,7 @@ footer img {
     margin: 0 8px;
 }
 
-#instructionsDialog, #exportDialog {
+#instructionsDialog, #exportDialog, #sizeChangeWarning {
     display: none;
     position: absolute;
     top: 50%;
@@ -316,12 +316,12 @@ footer img {
     font-size: medium;
 }
 
-#exportDialog {
+#exportDialog, #sizeChangeWarning {
     padding: 12px;
     text-align: center;
     flex-direction: column;
     justify-content: center;
-    justify-items: center;
+    align-items: center;
 }
 
 #exportDialog div {
@@ -330,7 +330,7 @@ footer img {
     justify-items: center;
 }
 
-#exportDialog button, #instructionsDialog button {
+#exportDialog button, #instructionsDialog button, #sizeChangeWarning button {
     margin: 16px 24px;
     padding-top: 12px;
     padding-bottom: 12px;

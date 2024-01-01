@@ -183,6 +183,21 @@ function hideExportDialog(){
     elDarkOverlay.style.zIndex = -5;
 }
 
+function showSizeChangeWarning(){
+    elSizeChangeWarning.style.display = "flex";
+    elSizeChangeWarning.style.zIndex = 5;
+    elDarkOverlay.style.display = "block";
+    elDarkOverlay.style.zIndex = 4;
+}
+
+function hideSizeChangeWarning(){
+    elSizeChangeWarning.style.display = "none";
+    elSizeChangeWarning.style.zIndex = -4;
+    elDarkOverlay.style.display = "none";
+    elDarkOverlay.style.zIndex = -5;
+
+}
+
 const elHeader = document.querySelector("#header");
 const packChoice = localStorage.getItem("packChoice") != null;
 if(!packChoice){
@@ -207,9 +222,22 @@ if(!packChoice){
 const elSlider = document.querySelector("#sizeSlider");
 elSlider.min = CONFIG.minSize;
 elSlider.max = CONFIG.maxSize;
-elSlider.addEventListener("input", () => {changeReactorSize(elSlider.value);});
 
 const elReactorSize = document.querySelector("#reactorSize");
+const sizeChangeWarned = localStorage.getItem("sizeChangeWarned") != null;
+const elSizeChangeWarning = document.querySelector("#sizeChangeWarning");
+if(!sizeChangeWarned){
+    const elSizeWarningHide = document.querySelector("#sizeWarningHide");
+    elSizeWarningHide.addEventListener("click", hideSizeChangeWarning);
+    const callback = (e) => {
+        e.preventDefault();
+        localStorage.setItem("sizeChangeWarned", true);
+        showSizeChangeWarning();
+        elSlider.removeEventListener("mousedown", callback);
+    };
+    elSlider.addEventListener("mousedown", callback);
+}
+elSlider.addEventListener("input", () => {changeReactorSize(elSlider.value);});
 
 let fuelComboName;
 const elFuelCombo = document.querySelector("#fuelCombo");
