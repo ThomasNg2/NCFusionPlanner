@@ -277,9 +277,12 @@ footer a {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-right: 0.5px solid white;
     margin: 0 8px;
     text-decoration: none;
+}
+
+footer a:not(:last-child) {
+    border-right: 0.5px solid white;
 }
 
 footer img {
